@@ -951,4 +951,3 @@ export default function Products({ initialFilter = 'ALL' }) {
     </div>
   );
 }
-
