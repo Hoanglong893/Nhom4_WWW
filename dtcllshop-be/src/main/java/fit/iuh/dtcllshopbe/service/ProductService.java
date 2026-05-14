@@ -40,6 +40,10 @@ import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Dịch vụ xử lý nghiệp vụ liên quan đến Sản phẩm.
+ * Quản lý CRUD, thống kê sản phẩm bán chạy và các dashboard liên quan.
+ */
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -263,6 +267,11 @@ public class ProductService {
     }
 
 
+    /**
+     * Lấy danh sách sản phẩm Trending (Bán chạy) theo thời gian.
+     * @param type Loại thời gian (week, month, year)
+     * @return Danh sách TopProductResponse kèm xu hướng tăng trưởng
+     */
     public List<TopProductResponse> getTopTrending(String type) {
 
         // ===== Xác định thời gian =====
@@ -346,6 +355,10 @@ public class ProductService {
         return result;
     }
 
+    /**
+     * Lấy các số liệu thống kê cơ bản cho Dashboard Admin.
+     * @return Map chứa thông tin tổng sản phẩm và sản phẩm sắp hết hàng.
+     */
     public Map<String, Long> getDashboardStats() {
         Map<String, Long> stats = new HashMap<>();
 

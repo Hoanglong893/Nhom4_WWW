@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+/**
+ * Dịch vụ xử lý logic liên quan đến gửi Email.
+ * Sử dụng JavaMailSender để gửi mail HTML và Simple Mail.
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -56,6 +60,11 @@ public class EmailService {
         }
     }
 
+    /**
+     * Gửi email khuyến mãi hàng loạt đến danh sách khách hàng.
+     * @param customers Danh sách khách hàng nhận tin
+     * @param products Danh sách sản phẩm đang khuyến mãi
+     */
     @Async
     public void sendEmailToAllCustomers(List<Customer> customers, List<Product> products) {
         for (Customer c : customers) {
@@ -73,6 +82,11 @@ public class EmailService {
         System.out.println("=== ĐÃ GỬI XONG TẤT CẢ EMAIL ===");
     }
 
+    /**
+     * Gửi email xác nhận sau khi khách hàng hoàn tất mua hàng.
+     * @param customer Thông tin khách hàng
+     * @param order Thông tin đơn hàng vừa tạo
+     */
     @Async
     public  void sendEmailToCustomerAfterPurchase(Customer customer, OrderResponse order) {
         String html = buildNoticationAfterPurchase(customer, order);
