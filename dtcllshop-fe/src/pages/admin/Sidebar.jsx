@@ -1,4 +1,5 @@
 import React from 'react';
+// Tối ưu hóa layout và logic điều hướng cho Admin Dashboard
 import { BarChart3, Umbrella, Users, Package, Settings, LogOut, Menu, X, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router';
 export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }) {
