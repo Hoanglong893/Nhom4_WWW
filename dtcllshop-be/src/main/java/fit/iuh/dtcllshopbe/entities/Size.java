@@ -1,7 +1,6 @@
 package fit.iuh.dtcllshopbe.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fit.iuh.dtcllshopbe.enums.SizeName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
