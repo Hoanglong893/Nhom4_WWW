@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.entity;
+package fit.iuh.dtcllshopbe.entities;
 
 import fit.iuh.dtcllshopbe.enums.Role;
 import fit.iuh.dtcllshopbe.enums.StatusLogin;

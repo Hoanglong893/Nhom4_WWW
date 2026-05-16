@@ -4,9 +4,8 @@ import fit.iuh.dtcllshopbe.dto.request.AccountRequest;
 import fit.iuh.dtcllshopbe.dto.request.MeetingRequest;
 import fit.iuh.dtcllshopbe.dto.response.AccountResponse;
 import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
-import fit.iuh.dtcllshopbe.entity.Account;
-import fit.iuh.dtcllshopbe.entity.Customer;
-
+import fit.iuh.dtcllshopbe.entities.Account;
+import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.service.AccountService;
 
 import fit.iuh.dtcllshopbe.service.CustomerService;

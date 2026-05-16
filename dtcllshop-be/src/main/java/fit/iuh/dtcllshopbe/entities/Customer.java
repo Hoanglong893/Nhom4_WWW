@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.entity;
+package fit.iuh.dtcllshopbe.entities;
 
 import fit.iuh.dtcllshopbe.enums.Gender;
 import fit.iuh.dtcllshopbe.enums.Status;

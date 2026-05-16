@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.entity;
+package fit.iuh.dtcllshopbe.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

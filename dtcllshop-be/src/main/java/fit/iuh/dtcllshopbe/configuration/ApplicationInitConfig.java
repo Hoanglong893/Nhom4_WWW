@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fit.iuh.dtcllshopbe.dto.request.AccountRequest;
-import fit.iuh.dtcllshopbe.entity.Account;
+import fit.iuh.dtcllshopbe.entities.Account;
 import fit.iuh.dtcllshopbe.enums.Role;
 import fit.iuh.dtcllshopbe.repository.AccountRepository;
 
