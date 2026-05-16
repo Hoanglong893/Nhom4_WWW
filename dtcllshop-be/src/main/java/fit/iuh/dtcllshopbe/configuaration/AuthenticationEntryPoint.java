@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.configuration;
+package fit.iuh.dtcllshopbe.configuaration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fit.iuh.dtcllshopbe.dto.response.ApiResponse;

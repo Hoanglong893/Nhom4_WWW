@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.configuration;
+package fit.iuh.dtcllshopbe.configuaration;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

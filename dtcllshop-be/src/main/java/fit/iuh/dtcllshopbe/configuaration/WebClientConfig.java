@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.configuration;
+package fit.iuh.dtcllshopbe.configuaration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
