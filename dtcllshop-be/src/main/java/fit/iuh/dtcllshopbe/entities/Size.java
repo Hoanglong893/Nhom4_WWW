@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import fit.iuh.dtcllshopbe.enums.SizeName;
 import lombok.ToString;
 
 import java.util.List;
