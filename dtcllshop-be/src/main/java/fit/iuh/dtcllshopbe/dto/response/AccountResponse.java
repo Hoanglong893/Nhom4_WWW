@@ -1,6 +1,5 @@
 package fit.iuh.dtcllshopbe.dto.response;
 
-import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.enums.Role;
 import fit.iuh.dtcllshopbe.enums.StatusLogin;
 import lombok.AllArgsConstructor;

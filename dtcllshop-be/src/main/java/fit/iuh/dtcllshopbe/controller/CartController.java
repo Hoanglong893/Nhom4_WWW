@@ -1,7 +1,7 @@
 package fit.iuh.dtcllshopbe.controller;
 
-import fit.iuh.dtcllshopbe.dto.request.CartUpdateRequest;
 import fit.iuh.dtcllshopbe.dto.request.CartRequest;
+import fit.iuh.dtcllshopbe.dto.request.CartUpdateRequest;
 import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
 import fit.iuh.dtcllshopbe.dto.response.CartResponse;
 import fit.iuh.dtcllshopbe.entities.Cart;
@@ -20,12 +20,15 @@ public class CartController {
 
     @GetMapping("/account/{accountId}")
     public ApiResponse<CartResponse> getCartByAccountId(@PathVariable int accountId) {
+
         Cart cart = cartService.getCartByAccountId(accountId);
+
         CartResponse response = CartResponse.builder()
                 .id(cart.getId())
                 .totalQuantity(cart.getTotalQuantity())
                 .totalAmount(cart.getTotalAmount())
                 .build();
+
         ApiResponse<CartResponse> result = new ApiResponse<>();
         result.setResult(response);
         return result;
@@ -41,8 +44,9 @@ public class CartController {
     }
 
     @PutMapping("/update/{cartId}/increase")
-    public ApiResponse<CartResponse> updateCartIncrease(@PathVariable int cartId, @RequestBody CartUpdateRequest req) {
-        CartResponse cartResponse = cartService.updateCartIncrease(cartId, req);
+    public ApiResponse<CartResponse> updateCartIncrease(@PathVariable int cartId,
+            @RequestBody CartUpdateRequest cartPriceRequest) {
+        CartResponse cartResponse = cartService.updateCartIncrease(cartId, cartPriceRequest);
         return ApiResponse.<CartResponse>builder()
                 .message("Cart updated")
                 .result(cartResponse)
@@ -50,8 +54,9 @@ public class CartController {
     }
 
     @PutMapping("/update/{cartId}/decrease")
-    public ApiResponse<CartResponse> updateCartDecrease(@PathVariable int cartId, @RequestBody CartUpdateRequest req) {
-        CartResponse cartResponse = cartService.updateCartDecrease(cartId, req);
+    public ApiResponse<CartResponse> updateCartDecrease(@PathVariable int cartId,
+            @RequestBody CartUpdateRequest cartPriceRequest) {
+        CartResponse cartResponse = cartService.updateCartDecrease(cartId, cartPriceRequest);
         return ApiResponse.<CartResponse>builder()
                 .message("Cart updated")
                 .result(cartResponse)
@@ -59,8 +64,9 @@ public class CartController {
     }
 
     @PutMapping("/update/{cartId}/delete")
-    public ApiResponse<CartResponse> updateCartDelete(@PathVariable int cartId, @RequestBody CartUpdateRequest req) {
-        CartResponse cartResponse = cartService.updateCartDelete(cartId, req);
+    public ApiResponse<CartResponse> updateCartDelete(@PathVariable int cartId,
+            @RequestBody CartUpdateRequest cartPriceRequest) {
+        CartResponse cartResponse = cartService.updateCartDelete(cartId, cartPriceRequest);
         return ApiResponse.<CartResponse>builder()
                 .message("Cart updated")
                 .result(cartResponse)
