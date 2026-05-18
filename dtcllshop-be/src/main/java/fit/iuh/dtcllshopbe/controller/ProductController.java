@@ -1,0 +1,55 @@
+package fit.iuh.dtcllshopbe.controller;
+
+import fit.iuh.dtcllshopbe.dto.request.ProductRequest;
+import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
+import fit.iuh.dtcllshopbe.dto.response.ProductResponse;
+import fit.iuh.dtcllshopbe.service.ProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/products")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class ProductController {
+    ProductService productService;
+
+    @GetMapping
+    public ApiResponse<List<ProductResponse>> getAllProducts() {
+        ApiResponse<List<ProductResponse>> response = new ApiResponse<>();
+        response.setResult(productService.getAllProducts());
+        return response;
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<ProductResponse> getProductById(@PathVariable int id) {
+        ApiResponse<ProductResponse> response = new ApiResponse<>();
+        response.setResult(productService.getProductById(id));
+        return response;
+    }
+
+    @PostMapping
+    public ApiResponse<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
+        ApiResponse<ProductResponse> response = new ApiResponse<>();
+        response.setResult(productService.createProduct(productRequest));
+        return response;
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable int id, @RequestBody ProductRequest productRequest) {
+        ApiResponse<ProductResponse> response = new ApiResponse<>();
+        response.setResult(productService.updateProduct(id, productRequest));
+        return response;
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteProduct(@PathVariable int id) {
+        productService.deleteProduct(id);
+        ApiResponse<String> response = new ApiResponse<>();
+        response.setResult("Product deleted successfully");
+        return response;
+    }
+}
