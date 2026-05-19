@@ -1,5 +1,4 @@
 package fit.iuh.dtcllshopbe.dto.response;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

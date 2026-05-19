@@ -1,7 +1,10 @@
 // src/main/java/fit/iuh/dtcllshopbe/dto/response/WishlistDetailResponse.java
 package fit.iuh.dtcllshopbe.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
