@@ -6,24 +6,32 @@ import fit.iuh.dtcllshopbe.dto.ResetPassword.ForgotPasswordRequest;
 import fit.iuh.dtcllshopbe.dto.ResetPassword.ResetPasswordRequest;
 import fit.iuh.dtcllshopbe.dto.request.AuthenticationRequest;
 import fit.iuh.dtcllshopbe.dto.request.IntrospectRequest;
+import fit.iuh.dtcllshopbe.dto.response.AccountResponse;
 import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
 import fit.iuh.dtcllshopbe.dto.response.AuthenticationResponse;
 import fit.iuh.dtcllshopbe.dto.response.IntrospectResponse;
 import fit.iuh.dtcllshopbe.entities.Account;
+import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.exception.AppException;
 import fit.iuh.dtcllshopbe.exception.ErrorCode;
+import fit.iuh.dtcllshopbe.repository.AccountRepository;
+import fit.iuh.dtcllshopbe.repository.CustomerRepository;
 import fit.iuh.dtcllshopbe.service.AccountService;
 import fit.iuh.dtcllshopbe.service.AuthenticationService;
 import fit.iuh.dtcllshopbe.service.EmailService;
+import fit.iuh.dtcllshopbe.service.JwtService;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Random;
@@ -37,9 +45,8 @@ public class AuthenticationController {
     AccountService accountService;
     JwtUtil jwtUtil;
     EmailService emailService;
-
     @PostMapping("/login")
-    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
         var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
@@ -47,8 +54,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
-    public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request)
-            throws ParseException, JOSEException {
+    public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
         var result = authenticationService.introspecct(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
@@ -73,11 +79,14 @@ public class AuthenticationController {
         emailService.sendSimpleEmail(
                 forgotPasswordRequest.getEmail(),
                 "Reset Password OTP",
-                "Your verification code is: " + otp);
+                "Your verification code is: " + otp
+        );
         return ApiResponse.<ResetPasswordRequest>builder()
                 .result(resetPasswordRequest)
                 .build();
     }
+
+
 
     @PostMapping("/reset-password")
     public ApiResponse<String> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {

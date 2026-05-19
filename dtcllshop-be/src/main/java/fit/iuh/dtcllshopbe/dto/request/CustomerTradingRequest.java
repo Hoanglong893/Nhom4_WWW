@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MeetingRequest {
-    String title;
-    String description;
-    String startTime;
-    String endTime;
+public class CustomerTradingRequest {
+    private String receiverName;
+    private String receiverPhone;
+    private String receiverEmail;
+    private String receiverAddress;
+    private double totalAmount;
 }

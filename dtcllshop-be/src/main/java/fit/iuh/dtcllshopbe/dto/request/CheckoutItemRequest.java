@@ -6,12 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class MeetingRequest {
-    String title;
-    String description;
-    String startTime;
-    String endTime;
+public class CheckoutItemRequest {
+    private int productId;
+    private int quantity;
 }

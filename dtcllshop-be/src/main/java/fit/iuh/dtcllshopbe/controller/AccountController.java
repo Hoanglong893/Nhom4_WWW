@@ -1,5 +1,4 @@
 package fit.iuh.dtcllshopbe.controller;
-
 import fit.iuh.dtcllshopbe.dto.request.AccountRequest;
 import fit.iuh.dtcllshopbe.dto.request.MeetingRequest;
 import fit.iuh.dtcllshopbe.dto.response.AccountResponse;
@@ -36,7 +35,7 @@ public class AccountController {
 
     // @valid thông báo cần kiểm tra request
     @PostMapping
-    public ApiResponse<AccountResponse> register(@RequestBody @Valid AccountRequest accountRequest) {
+    public ApiResponse<AccountResponse> register(@RequestBody @Valid AccountRequest accountRequest){
         ApiResponse<AccountResponse> accountApiResponse = new ApiResponse<>();
         accountApiResponse.setResult(accountService.addAccount(accountRequest));
         return accountApiResponse;
@@ -51,9 +50,9 @@ public class AccountController {
 
     @GetMapping
     public ApiResponse<List<AccountResponse>> getAllAccounts(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String role) {
+            @RequestParam(required = false)String name,
+            @RequestParam(required = false)String status,
+            @RequestParam(required = false)String role){
         ApiResponse<List<AccountResponse>> response = new ApiResponse<>();
         // Giả sử bạn có phương thức getAllAccounts trong AccountService
         response.setResult(accountService.getAllAccounts(name, status, role));
@@ -61,21 +60,23 @@ public class AccountController {
     }
 
     @GetMapping("/myinfor")
-    public ApiResponse<AccountResponse> getMyAccount() {
+    public ApiResponse<AccountResponse> getMyAccount(){
         ApiResponse<AccountResponse> response = new ApiResponse<>();
         response.setResult(accountService.getMyAccount());
         return response;
     }
 
     @GetMapping("/username/{username}")
-    public ApiResponse<AccountResponse> getAccountByUsername(@PathVariable String username) {
+    public ApiResponse<AccountResponse> getAccountByUsername(@PathVariable String username){
         ApiResponse<AccountResponse> response = new ApiResponse<>();
         response.setResult(accountService.getAccountByUsername(username));
         return response;
     }
 
+
+
     @PostMapping("/admin/add")
-    public ApiResponse<AccountResponse> addAccountByAdmin(@RequestBody @Valid AccountRequest accountRequest) {
+    public ApiResponse<AccountResponse> addAccountByAdmin(@RequestBody @Valid AccountRequest accountRequest){
         ApiResponse<AccountResponse> accountApiResponse = new ApiResponse<>();
         accountApiResponse.setResult(accountService.addAccountByAdmin(accountRequest));
         return accountApiResponse;
@@ -83,14 +84,14 @@ public class AccountController {
 
     @PutMapping("/admin/update/{id}")
     public ApiResponse<AccountResponse> updateAccountByAdmin(@PathVariable("id") Integer id,
-            @RequestBody @Valid AccountRequest accountRequest) {
+                                                             @RequestBody @Valid AccountRequest accountRequest){
         ApiResponse<AccountResponse> accountApiResponse = new ApiResponse<>();
         accountApiResponse.setResult(accountService.updateAccountByAdmin(id, accountRequest));
         return accountApiResponse;
     }
 
     @DeleteMapping("/admin/delete/{id}")
-    public ApiResponse<AccountResponse> deleteAccountByAdmin(@PathVariable("id") Integer id) {
+    public ApiResponse<AccountResponse> deleteAccountByAdmin(@PathVariable("id") Integer id){
         ApiResponse<AccountResponse> accountApiResponse = new ApiResponse<>();
         accountApiResponse.setResult(accountService.deleteAccountByAdmin(id));
         return accountApiResponse;
@@ -103,7 +104,8 @@ public class AccountController {
                     req.getTitle(),
                     req.getDescription(),
                     req.getStartTime(),
-                    req.getEndTime());
+                    req.getEndTime()
+            );
 
             List<Customer> employees = accountService.getAllEmployees();
 

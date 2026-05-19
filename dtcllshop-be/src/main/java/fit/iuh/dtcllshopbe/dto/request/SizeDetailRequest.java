@@ -8,10 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryRequest {
-     String name;
-     String description;
-     String imageUrl;
-     int display_order;
-     boolean isActive;
+public class SizeDetailRequest {
+    int quantity;
+    SizeRequest sizeRequest;
+    private int productId;
+    private int sizeId;
 }

@@ -1,4 +1,4 @@
-package fit.iuh.dtcllshopbe.dto.request;
+package fit.iuh.dtcllshopbe.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MeetingRequest {
-    String title;
-    String description;
-    String startTime;
-    String endTime;
+public class SizeDetailResponse {
+    private int id;
+    private int quantity;
+    private int sizeId;
 }

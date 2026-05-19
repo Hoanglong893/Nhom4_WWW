@@ -10,6 +10,8 @@ import fit.iuh.dtcllshopbe.exception.AppException;
 import fit.iuh.dtcllshopbe.exception.ErrorCode;
 import fit.iuh.dtcllshopbe.repository.ProductRepository;
 import fit.iuh.dtcllshopbe.service.CustomerService;
+import fit.iuh.dtcllshopbe.service.EmailService;
+import fit.iuh.dtcllshopbe.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
