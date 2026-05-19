@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/categories")
@@ -25,5 +26,13 @@ public class CategoryController {
         ApiResponse<List<CategoryResponse>> response = new ApiResponse<>();
         response.setResult(categoryService.getAllCategories());
         return response;
+    }
+
+    @GetMapping("/category-revenue")
+    public Map<String, Object> getCategoryRevenue() {
+        return Map.of(
+                "code", 200,
+                "result", categoryService.getCategoryReport()
+        );
     }
 }
