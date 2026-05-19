@@ -118,9 +118,9 @@ const Product = () => {
 
       switch (sortBy) {
         case "price-low":
-          return b.costPrice - a.costPrice; // BUG: reversed sort low-to-high
+          return a.costPrice - b.costPrice;
         case "price-high":
-          return a.costPrice - b.costPrice; // BUG: reversed sort high-to-low
+          return b.costPrice - a.costPrice;
         case "newest":
           return new Date(b.updatedAt) - new Date(a.updatedAt);
         case "bestselling":
@@ -155,41 +155,41 @@ const Product = () => {
   ];
 
   return (
-      <div className="min-h-screen bg-[#f3f3f1] text-black">
+      <div className="min-h-screen bg-[#f7f8fb] text-slate-950">
         {/* Header section mới, vẫn chỉ là UI */}
-        <section className="border-b border-black/10 bg-[#ececea]">
+        <section className="border-b border-slate-200 bg-blue-50/45">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
-                <p className="inline-flex rounded-full border border-black/10 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-black">
+                <p className="inline-flex rounded-full border border-blue-100 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                   DTCLL SHOP • DANH MỤC
                 </p>
                 <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
                   Khám phá thời trang
-                  <span className="block text-[#666]">theo cách riêng</span>
+                  <span className="block text-blue-700">theo cách riêng</span>
                 </h1>
-                <p className="mt-5 max-w-2xl text-base leading-8 text-[#5f6368] sm:text-lg">
+                <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
                   Khám phá toàn bộ bộ sưu tập với trải nghiệm duyệt sản phẩm rõ ràng,
                   bố cục gọn gàng và cách trình bày hiện đại.
                 </p>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
-                <div className="rounded-[24px] border border-black/10 bg-white p-5 text-center shadow-sm">
+                <div className="rounded-[24px] border border-blue-100 bg-white p-5 text-center shadow-sm">
                   <div className="text-3xl font-bold">{products.length}+</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                  <div className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                     Sản phẩm
                   </div>
                 </div>
-                <div className="rounded-[24px] border border-black/10 bg-white p-5 text-center shadow-sm">
+                <div className="rounded-[24px] border border-blue-100 bg-white p-5 text-center shadow-sm">
                   <div className="text-3xl font-bold">{categories.length}</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                  <div className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                     Danh mục
                   </div>
                 </div>
-                <div className="rounded-[24px] border border-black/10 bg-white p-5 text-center shadow-sm">
+                <div className="rounded-[24px] border border-blue-100 bg-white p-5 text-center shadow-sm">
                   <div className="text-3xl font-bold">100%</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                  <div className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                     Chất lượng
                   </div>
                 </div>
@@ -200,7 +200,7 @@ const Product = () => {
 
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           {/* Top controls block mới */}
-          <div className="mb-8 rounded-[28px] border border-black/10 bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+          <div className="mb-8 rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.05)]">
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_260px_auto] xl:items-center">
               {/* Search */}
               <div className="relative">
@@ -211,7 +211,7 @@ const Product = () => {
                 <input
                     type="text"
                     placeholder="Tìm trong danh mục..."
-                    className="w-full rounded-full border border-black/10 bg-[#fafafa] py-3 pl-11 pr-4 text-sm text-black outline-none transition focus:border-black"
+                    className="w-full rounded-full border border-[#E0E0E0] bg-[#F9F9F9] py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -220,7 +220,7 @@ const Product = () => {
               {/* Sort */}
               <div className="relative">
                 <select
-                    className="appearance-none w-full rounded-full border border-black/10 bg-[#fafafa] px-4 py-3 pr-11 text-sm font-medium text-[#444] outline-none transition focus:border-black"
+                    className="appearance-none w-full rounded-full border border-[#E0E0E0] bg-[#F9F9F9] px-4 py-3 pr-11 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                 >
@@ -237,13 +237,13 @@ const Product = () => {
               </div>
 
               {/* Xem mode */}
-              <div className="inline-flex w-fit rounded-full border border-black/10 bg-[#f5f5f5] p-1.5">
+              <div className="inline-flex w-fit rounded-full border border-slate-200 bg-blue-50 p-1.5">
                 <button
                     onClick={() => setXemMode("grid")}
                     className={`rounded-full px-4 py-2.5 transition ${
                         viewMode === "grid"
-                            ? "bg-black text-white"
-                            : "text-[#555] hover:bg-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-600 hover:bg-white hover:text-blue-700"
                     }`}
                     title="Dạng lưới"
                 >
@@ -253,8 +253,8 @@ const Product = () => {
                     onClick={() => setXemMode("list")}
                     className={`rounded-full px-4 py-2.5 transition ${
                         viewMode === "list"
-                            ? "bg-black text-white"
-                            : "text-[#555] hover:bg-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-600 hover:bg-white hover:text-blue-700"
                     }`}
                     title="Dạng danh sách"
                 >
@@ -268,9 +268,9 @@ const Product = () => {
             {/* Sidebar mới */}
             <aside className="space-y-6">
               {/* Categories */}
-              <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-[0_10px_24px_rgba(0,0,0,0.04)]">
-                <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-black">
-                  <Folder size={18} />
+              <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
+                <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-950">
+                  <Folder size={18} className="text-blue-700" />
                   Danh mục
                 </h3>
 
@@ -279,8 +279,8 @@ const Product = () => {
                       onClick={() => setSelectedCategory("all")}
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
                           selectedCategory === "all"
-                              ? "bg-black text-white"
-                              : "bg-[#f5f5f5] text-[#333] hover:bg-[#ececec]"
+                              ? "bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.18)]"
+                              : "bg-[#F9F9F9] text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                       }`}
                   >
                     Tất cả sản phẩm
@@ -292,8 +292,8 @@ const Product = () => {
                           onClick={() => setSelectedCategory(category.id.toString())}
                           className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
                               selectedCategory === category.id.toString()
-                                  ? "bg-black text-white"
-                                  : "bg-[#f5f5f5] text-[#333] hover:bg-[#ececec]"
+                                  ? "bg-blue-600 text-white shadow-[0_8px_18px_rgba(37,99,235,0.18)]"
+                                  : "bg-[#F9F9F9] text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                           }`}
                       >
                         {category.name}
@@ -303,17 +303,17 @@ const Product = () => {
               </div>
 
               {/* Price range */}
-              <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-[0_10px_24px_rgba(0,0,0,0.04)]">
-                <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-black">
-                  <DollarSign size={18} />
+              <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
+                <h3 className="mb-5 flex items-center gap-2 text-lg font-bold text-slate-950">
+                  <DollarSign size={18} className="text-blue-700" />
                   Khoảng giá
                 </h3>
 
-                <div className="rounded-2xl bg-[#f5f5f5] p-4 text-center">
-                  <div className="text-xs uppercase tracking-[0.16em] text-[#7a7a7a]">
+                <div className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-center">
+                  <div className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                     Khoảng giá đã chọn
                   </div>
-                  <div className="mt-2 text-sm font-bold text-black">
+                  <div className="mt-2 text-sm font-bold text-slate-950">
                     {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
                   </div>
                 </div>
@@ -328,7 +328,7 @@ const Product = () => {
                       onChange={(e) =>
                           setPriceRange([parseInt(e.target.value), priceRange[1]])
                       }
-                      className="w-full h-2 cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black"
+                      className="w-full h-2 cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-600"
                   />
                   <input
                       type="range"
@@ -339,7 +339,7 @@ const Product = () => {
                       onChange={(e) =>
                           setPriceRange([priceRange[0], parseInt(e.target.value)])
                       }
-                      className="w-full h-2 cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black"
+                      className="w-full h-2 cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-600"
                   />
                 </div>
               </div>
@@ -350,19 +350,19 @@ const Product = () => {
               {/* Result info */}
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a]">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                     Kết quả sản phẩm
                   </p>
-                  <p className="mt-2 text-sm font-medium text-[#4b5563]">
+                  <p className="mt-2 text-sm font-medium text-slate-600">
                     Hiển thị {(currentPage - 1) * itemsPerPage + 1} -{" "}
                     {Math.min(currentPage * itemsPerPage, processedProducts.length)}{" "}
                     trên {processedProducts.length} sản phẩm
                   </p>
                 </div>
 
-                <div className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm text-[#4b5563] shadow-sm">
+                <div className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
                   Kiểu hiển thị:{" "}
-                  <span className="font-semibold text-black">
+                  <span className="font-semibold text-blue-700">
                   {viewMode === "grid" ? "Dạng lưới" : "Dạng danh sách"}
                 </span>
                 </div>
@@ -371,7 +371,7 @@ const Product = () => {
               {/* Loading */}
               {loading && (
                   <div className="flex h-64 items-center justify-center">
-                    <div className="h-14 w-14 animate-spin rounded-full border-4 border-black border-t-transparent" />
+                    <div className="h-14 w-14 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
                   </div>
               )}
 
@@ -410,7 +410,7 @@ const Product = () => {
                               className={`flex h-11 w-11 items-center justify-center rounded-full border transition ${
                                   currentPage === 1
                                       ? "cursor-not-allowed border-gray-300 text-gray-400"
-                                      : "border-black/10 bg-white text-black hover:bg-black hover:text-white"
+                                      : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
                               }`}
                           >
                             <ChevronLeft size={18} />
@@ -422,8 +422,8 @@ const Product = () => {
                                   onClick={() => setCurrentPage(i + 1)}
                                   className={`h-11 min-w-[44px] rounded-full px-4 text-sm font-semibold transition ${
                                       currentPage === i + 1
-                                          ? "bg-black text-white"
-                                          : "border border-black/10 bg-white text-black hover:bg-[#f2f2f2]"
+                                          ? "bg-blue-600 text-white"
+                                          : "border border-slate-200 bg-white text-slate-700 hover:bg-blue-50 hover:text-blue-700"
                                   }`}
                               >
                                 {i + 1}
@@ -438,7 +438,7 @@ const Product = () => {
                               className={`flex h-11 w-11 items-center justify-center rounded-full border transition ${
                                   currentPage === totalPages
                                       ? "cursor-not-allowed border-gray-300 text-gray-400"
-                                      : "border-black/10 bg-white text-black hover:bg-black hover:text-white"
+                                      : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
                               }`}
                           >
                             <ChevronRight size={18} />
@@ -450,14 +450,14 @@ const Product = () => {
 
               {/* Trống state */}
               {!loading && processedProducts.length === 0 && (
-                  <div className="rounded-[32px] border border-dashed border-black/15 bg-white px-6 py-20 text-center shadow-sm">
+                  <div className="rounded-[32px] border border-dashed border-blue-200 bg-white px-6 py-20 text-center shadow-sm">
                     <div className="mb-5 text-gray-400">
                       <Search size={56} className="mx-auto" />
                     </div>
-                    <h3 className="text-3xl font-bold text-black">
+                    <h3 className="text-3xl font-bold text-slate-950">
                       Không tìm thấy sản phẩm
                     </h3>
-                    <p className="mt-4 text-[#6b7280]">
+                    <p className="mt-4 text-slate-600">
                       Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm.
                     </p>
                   </div>
@@ -473,5 +473,3 @@ const Product = () => {
 };
 
 export default Product;
-
-
