@@ -1,6 +1,5 @@
 package fit.iuh.dtcllshopbe.service;
 
-
 import fit.iuh.dtcllshopbe.dto.response.OrderResponse;
 import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.entities.Order;
@@ -41,8 +40,6 @@ public class EmailService {
         mailSender.send(msg);
 
     }
-
-
 
     public void sendHtmlEmail(String to, String subject, String htmlContent) {
         try {
@@ -88,14 +85,16 @@ public class EmailService {
      * @param order Thông tin đơn hàng vừa tạo
      */
     @Async
-    public  void sendEmailToCustomerAfterPurchase(Customer customer, OrderResponse order) {
+    public void sendEmailToCustomerAfterPurchase(Customer customer, OrderResponse order) {
         String html = buildNoticationAfterPurchase(customer, order);
         sendHtmlEmail(customer.getEmail(), "Cảm ơn bạn đã mua hàng tại dtcllshop!", html);
     }
+
     public String buildNoticationAfterPurchase(Customer customer, OrderResponse order) {
         StringBuilder html = new StringBuilder();
 
-        html.append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #f9f9f9; border: 1px solid #e5e7eb;'>");
+        html.append(
+                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #f9f9f9; border: 1px solid #e5e7eb;'>");
 
         html.append("<h2 style='color: #D72638; text-align: center; margin-bottom: 10px;'>dtcllshop Thông Báo</h2>");
         html.append("<p style='font-size: 15px; color: #333;'>Xin chào <strong>")
@@ -108,7 +107,8 @@ public class EmailService {
                 .append("</strong> của bạn đã được xác nhận.</p>");
 
         // footer
-        html.append("<div style='text-align:center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e5e7eb;'>")
+        html.append(
+                "<div style='text-align:center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e5e7eb;'>")
                 .append("<p style='font-size: 14px; color: #777;'>Cảm ơn bạn đã luôn tin tưởng dtcllshop!</p>")
                 .append("<p style='font-size: 13px; color: #aaa;'>© 2025 dtcllshop. Tất cả các quyền được bảo lưu.</p>")
                 .append("</div>");
@@ -118,18 +118,20 @@ public class EmailService {
         return html.toString();
     }
 
-
     public String buildSoldOffEmail(List<Product> products, Customer customer) {
         StringBuilder html = new StringBuilder();
 
-        html.append("<div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #ffffff; border: 1px solid #e5e7eb;'>");
+        html.append(
+                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border-radius: 10px; background: #ffffff; border: 1px solid #e5e7eb;'>");
 
-        html.append("<h2 style='color: #D72638; text-align: center; margin-bottom: 10px;'>dtcllshop Thông Báo Khuyến Mãi</h2>");
+        html.append(
+                "<h2 style='color: #D72638; text-align: center; margin-bottom: 10px;'>dtcllshop Thông Báo Khuyến Mãi</h2>");
         html.append("<p style='font-size: 15px; color: #333;'>Xin chào <strong>")
                 .append(customer.getFullName())
                 .append("</strong>,</p>");
 
-        html.append("<p style='font-size: 15px; color: #333;'>Dưới đây là danh sách sản phẩm <strong style='color:#D72638;'>đang sale sốc</strong> dành cho bạn:</p>");
+        html.append(
+                "<p style='font-size: 15px; color: #333;'>Dưới đây là danh sách sản phẩm <strong style='color:#D72638;'>đang sale sốc</strong> dành cho bạn:</p>");
 
         // product list section
         html.append("<div style='margin-top: 20px;'>");
@@ -139,7 +141,8 @@ public class EmailService {
 
             // image
             html.append("<div style='width: 30%;'>")
-                    .append("<img src='").append(p.getImageUrlFront()).append("' alt='product' style='width: 100%; border-radius: 8px;'>")
+                    .append("<img src='").append(p.getImageUrlFront())
+                    .append("' alt='product' style='width: 100%; border-radius: 8px;'>")
                     .append("</div>");
 
             // info
@@ -173,7 +176,8 @@ public class EmailService {
         // -------------------------------------------
 
         // footer
-        html.append("<div style='text-align:center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e5e7eb;'>")
+        html.append(
+                "<div style='text-align:center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e5e7eb;'>")
                 .append("<p style='font-size: 14px; color: #777;'>Cảm ơn bạn đã luôn tin tưởng dtcllshop!</p>")
                 .append("<p style='font-size: 13px; color: #aaa;'>© 2025 dtcllshop. Tất cả các quyền được bảo lưu.</p>")
                 .append("</div>");
@@ -196,16 +200,14 @@ public class EmailService {
         System.out.println("=== ĐÃ GỬI XONG EMAIL HỌP ===");
     }
 
-
     public void sendMeetingEmail(String employeeEmail, String meetLink) {
         String content = """
-            <h2>Cuộc họp mới đã được tạo</h2>
-            <p>Vui lòng tham gia cuộc họp qua đường link sau:</p>
-            <a href='%s' style='font-size:18px;font-weight:600;color:#2a7ae4;'>Tham gia Google Meet</a>
-            """.formatted(meetLink);
+                <h2>Cuộc họp mới đã được tạo</h2>
+                <p>Vui lòng tham gia cuộc họp qua đường link sau:</p>
+                <a href='%s' style='font-size:18px;font-weight:600;color:#2a7ae4;'>Tham gia Google Meet</a>
+                """.formatted(meetLink);
 
         sendHtmlEmail(employeeEmail, "Lịch họp mới từ dtcllshop", content);
     }
-
 
 }

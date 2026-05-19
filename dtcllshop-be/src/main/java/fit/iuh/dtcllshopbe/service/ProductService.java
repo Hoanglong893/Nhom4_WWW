@@ -6,9 +6,7 @@ import fit.iuh.dtcllshopbe.dto.request.SizeDetailRequest;
 import fit.iuh.dtcllshopbe.dto.response.CategoryResponse;
 import fit.iuh.dtcllshopbe.dto.response.ProductResponse;
 import fit.iuh.dtcllshopbe.dto.response.ProductResponse.SizeDetailResponse;
-import fit.iuh.dtcllshopbe.dto.response.RevenueResponse;
 import fit.iuh.dtcllshopbe.dto.response.TopProductResponse;
-
 import fit.iuh.dtcllshopbe.entities.Category;
 import fit.iuh.dtcllshopbe.entities.Product;
 import fit.iuh.dtcllshopbe.entities.Size;
@@ -22,8 +20,6 @@ import fit.iuh.dtcllshopbe.repository.OrderDetailRepository;
 import fit.iuh.dtcllshopbe.repository.ProductRepository;
 import fit.iuh.dtcllshopbe.repository.SizeRepository;
 import lombok.AccessLevel;
-
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
@@ -32,13 +28,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Dịch vụ xử lý nghiệp vụ liên quan đến Sản phẩm.

@@ -1,32 +1,22 @@
 package fit.iuh.dtcllshopbe.controller;
 
-import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
-import fit.iuh.dtcllshopbe.dto.response.CustomerResponse;
 import fit.iuh.dtcllshopbe.dto.request.CustomerUpdateRequest;
 import fit.iuh.dtcllshopbe.dto.response.AccountResponse;
 import fit.iuh.dtcllshopbe.dto.response.ApiResponse;
 import fit.iuh.dtcllshopbe.dto.response.CustomerResponse;
 import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.entities.Product;
-import fit.iuh.dtcllshopbe.repository.ProductRepository;
-import fit.iuh.dtcllshopbe.service.*;
 import fit.iuh.dtcllshopbe.exception.AppException;
 import fit.iuh.dtcllshopbe.exception.ErrorCode;
+import fit.iuh.dtcllshopbe.repository.ProductRepository;
 import fit.iuh.dtcllshopbe.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-
-
-import org.springframework.security.core.context.SecurityContextHolder; // ✅ Thêm import này
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
