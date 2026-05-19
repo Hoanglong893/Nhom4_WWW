@@ -1,4 +1,4 @@
-// ProductCard.jsx - Thêm prop viewMode
+﻿// ProductCard.jsx - Thêm prop viewMode
 import { Heart, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -47,13 +47,19 @@ const ProductCard = ({
   };
 
   const checkWishlistStatus = async () => {
+    if (!localStorage.getItem("accessToken")) {
+      setIsInAnyWishlist(false);
+      setLoadingStatus(false);
+      return;
+    }
+
     try {
       setLoadingStatus(true);
       const data = await api.get(
         `/wishlists/products/${product.id}/in-wishlist`
       );
       setIsInAnyWishlist(data.result === true);
-    } catch (err) {
+    } catch {
       setIsInAnyWishlist(false);
     } finally {
       setLoadingStatus(false);
@@ -83,7 +89,7 @@ const ProductCard = ({
     return (
       <>
         <div
-          className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 group cursor-pointer relative flex gap-4 p-4"
+          className="group relative flex cursor-pointer gap-4 overflow-hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_18px_36px_rgba(37,99,235,0.10)]"
           onClick={goToDetail}
         >
           {/* HÌNH ẢNH BÊN TRÁI */}
@@ -94,11 +100,11 @@ const ProductCard = ({
               className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
             />
 
-            {/* SOLD OUT */}
+            {/* HẾT HÀNG */}
             {isSoldOut && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                 <div className="bg-red-600 text-white px-6 py-2 rounded-full text-base font-bold tracking-wider shadow-2xl border-4 border-white transform -rotate-12">
-                  SOLD OUT
+                  HẾT HÀNG
                 </div>
               </div>
             )}
@@ -114,14 +120,14 @@ const ProductCard = ({
           {/* HOT BADGE - GÓC PHẢI CARD */}
           {isHot && !isSoldOut && (
             <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 animate-pulse z-10">
-              🔥 HOT
+              🔥 NỔI BẬT
             </div>
           )}
 
           {/* NEW BADGE - GÓC PHẢI CARD */}
           {!isHot && isNew && !isSoldOut && (
             <div className="absolute top-4 right-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 z-10">
-              ✨ NEW
+              ✨ MỚI
             </div>
           )}
 
@@ -199,7 +205,7 @@ const ProductCard = ({
                 {/* NÚT GIỎ HÀNG */}
                 <button
                   onClick={goToDetail}
-                  className="px-8 py-4 rounded-full bg-black text-white hover:bg-red-500 transition flex items-center justify-center gap-2 font-semibold"
+                  className="flex items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700"
                 >
                   <ShoppingCart size={20} />
                 </button>
@@ -221,11 +227,11 @@ const ProductCard = ({
     );
   }
 
-  // GRID VIEW (Giữ nguyên code cũ)
+  // GRID VIEW (giữ nguyên code cũ)
   return (
     <>
       <div
-        className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 group cursor-pointer relative"
+        className="group relative cursor-pointer overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_18px_36px_rgba(37,99,235,0.10)]"
         onClick={goToDetail}
       >
         {/* HÌNH ẢNH + OVERLAY */}
@@ -236,11 +242,11 @@ const ProductCard = ({
             className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
           />
 
-          {/* SOLD OUT */}
+          {/* HẾT HÀNG */}
           {isSoldOut && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <div className="bg-red-600 text-white px-8 py-3 rounded-full text-lg font-bold tracking-wider shadow-2xl border-4 border-white transform -rotate-12">
-                SOLD OUT
+                HẾT HÀNG
               </div>
             </div>
           )}
@@ -255,14 +261,14 @@ const ProductCard = ({
           {/* HOT BADGE */}
           {isHot && !isSoldOut && (
             <div className="absolute top-3 right-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1 animate-pulse">
-              🔥 HOT
+              🔥 NỔI BẬT
             </div>
           )}
 
           {/* NEW BADGE */}
           {!isHot && isNew && !isSoldOut && (
             <div className="absolute top-3 right-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
-              ✨ NEW
+              ✨ MỚI
             </div>
           )}
 
@@ -339,7 +345,7 @@ const ProductCard = ({
             {/* Nút giỏ hàng */}
             <button
               onClick={goToDetail}
-              className="p-4 rounded-full bg-black text-white hover:bg-red-500 transition flex items-center justify-center"
+              className="flex items-center justify-center rounded-full bg-blue-600 p-4 text-white transition hover:bg-blue-700"
             >
               <ShoppingCart size={20} />
             </button>
@@ -361,3 +367,6 @@ const ProductCard = ({
 };
 
 export default ProductCard;
+
+
+

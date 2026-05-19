@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Quote, MapPin } from "lucide-react";
 import ChatBot from "../components/ChatBot";
 import Contact from "../components/Contact";
@@ -65,49 +65,49 @@ const About = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f3f3f1] text-black">
+        <div className="min-h-screen bg-[#f7f8fb] text-slate-950">
             <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
                 {/* HERO */}
                 <section className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr] lg:items-stretch">
-                    <div className="flex flex-col justify-center rounded-[36px] border border-black/10 bg-white p-8 shadow-[0_16px_40px_rgba(0,0,0,0.05)] sm:p-10">
-                        <p className="inline-flex w-fit rounded-full border border-black/10 bg-[#f5f5f5] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#666]">
+                    <div className="flex flex-col justify-center rounded-[36px] border border-slate-200 bg-white p-8 shadow-[0_16px_40px_rgba(15,23,42,0.06)] sm:p-10">
+                        <p className="inline-flex w-fit rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                             DTCLL SHOP • TUYÊN NGÔN THƯƠNG HIỆU
                         </p>
 
                         <h1 className="mt-6 text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
                             Sinh ra cho
-                            <span className="block text-[#6a6a6a]">Cá tính hiện đại</span>
+                            <span className="block text-blue-700">Cá tính hiện đại</span>
                         </h1>
 
-                        <p className="mt-6 max-w-2xl text-base leading-8 text-[#5f6368] sm:text-lg">
+                        <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
                             DTCLL SHOP là thương hiệu thời trang hiện đại được xây dựng quanh
                             sự tối giản, cá tính riêng và cảm giác chỉn chu. Chúng tôi tin
                             thời trang hằng ngày nên dễ mặc, tự tin và tinh tế.
                         </p>
 
                         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                            <div className="rounded-[24px] border border-black/10 bg-[#f7f7f7] p-4">
+                            <div className="rounded-[24px] border border-blue-100 bg-blue-50/70 p-4">
                                 <p className="text-2xl font-bold">2025</p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                                     Ra mắt
                                 </p>
                             </div>
-                            <div className="rounded-[24px] border border-black/10 bg-[#f7f7f7] p-4">
+                            <div className="rounded-[24px] border border-blue-100 bg-blue-50/70 p-4">
                                 <p className="text-2xl font-bold">Việt Nam</p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                                     Bản sắc
                                 </p>
                             </div>
-                            <div className="rounded-[24px] border border-black/10 bg-[#f7f7f7] p-4 col-span-2 sm:col-span-1">
+                            <div className="rounded-[24px] border border-blue-100 bg-blue-50/70 p-4 col-span-2 sm:col-span-1">
                                 <p className="text-2xl font-bold">Tối giản</p>
-                                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#7a7a7a]">
+                                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
                                     Định hướng
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="overflow-hidden rounded-[36px] border border-black/10 bg-black shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
+                    <div className="overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
                         <img
                             src={headerImage}
                             alt="Hình ảnh thương hiệu DTCLL"
@@ -119,41 +119,41 @@ const About = () => {
                 {/* INTRO + QUOTES */}
                 <section className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
                     {/* Left visual */}
-                    <div className="self-start overflow-hidden rounded-[32px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.05)]">                        <div className="relative">
-                        <img
-                            src={mainImage}
-                            alt="Cảm hứng thời trang"
-                            className="h-[560px] w-full object-cover"
-                        />
+                    <div className="self-start overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_14px_34px_rgba(15,23,42,0.05)]">                        <div className="relative">
+                            <img
+                                src={mainImage}
+                                alt="Cảm hứng thời trang"
+                                className="h-[560px] w-full object-cover"
+                            />
 
-                        <div className="absolute left-5 top-5 rounded-full bg-black px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
-                            Từ 2025
-                        </div>
+                            <div className="absolute left-5 top-5 rounded-full border border-blue-100 bg-white/95 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-blue-700 shadow-[0_10px_20px_rgba(15,23,42,0.08)]">
+                                Từ 2025
+                            </div>
 
-                        <div className="absolute bottom-5 left-5 right-5 rounded-[24px] border border-black/10 bg-white/92 p-5 backdrop-blur-md">
-                            <p className="text-base font-semibold text-black sm:text-lg">
-                                <MapPin className="mr-2 inline h-5 w-5 text-black" />
-                                Phát triển tại Việt Nam
-                            </p>
-                            <p className="mt-2 text-sm leading-7 text-[#5f6368]">
-                                Chúng tôi lấy cảm hứng từ đời sống hằng ngày, thẩm mỹ gọn
-                                gàng và văn hóa trẻ hiện đại, rồi chuyển hóa thành sản phẩm
-                                dễ mặc.
-                            </p>
+                            <div className="absolute bottom-5 left-5 right-5 rounded-[24px] border border-slate-200 bg-white/95 p-5 backdrop-blur-md">
+                                <p className="text-base font-semibold text-slate-950 sm:text-lg">
+                                    <MapPin className="mr-2 inline h-5 w-5 text-blue-700" />
+                                    Phát triển tại Việt Nam
+                                </p>
+                                <p className="mt-2 text-sm leading-7 text-slate-600">
+                                    Chúng tôi lấy cảm hứng từ đời sống hằng ngày, thẩm mỹ gọn
+                                    gàng và văn hóa trẻ hiện đại, rồi chuyển hóa thành sản phẩm
+                                    dễ mặc.
+                                </p>
+                            </div>
                         </div>
-                    </div>
                     </div>
 
                     {/* Right content */}
                     <div className="space-y-5">
-                        <div className="rounded-[32px] border border-black/10 bg-white p-7 shadow-[0_14px_34px_rgba(0,0,0,0.05)]">
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a]">
+                        <div className="rounded-[32px] border border-slate-200 bg-white p-7 shadow-[0_14px_34px_rgba(15,23,42,0.05)]">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                                 Tổng quan thương hiệu
                             </p>
                             <h2 className="mt-4 text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
                                 Câu chuyện thương hiệu tinh gọn
                             </h2>
-                            <p className="mt-4 text-base leading-8 text-[#5f6368]">
+                            <p className="mt-4 text-base leading-8 text-slate-600">
                                 Thay vì chạy theo những công thức thời trang ồn ào, DTCLL SHOP
                                 tập trung vào ngôn ngữ hình ảnh tối giản và trải nghiệm mua sắm
                                 cân bằng hơn. Định hướng của chúng tôi hiện đại, gần gũi và
@@ -165,15 +165,15 @@ const About = () => {
                             {quotes.map((quote) => (
                                 <div
                                     key={quote.id}
-                                    className="group rounded-[26px] border border-black/10 bg-white p-6 shadow-[0_10px_24px_rgba(0,0,0,0.04)] transition hover:-translate-y-1 hover:bg-black hover:text-white"
+                                    className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-50"
                                 >
-                                    <p className="text-lg font-semibold leading-8 text-black transition group-hover:text-white">
-                                        <Quote className="mr-2 inline h-5 w-5" />
+                                    <p className="text-lg font-semibold leading-8 text-slate-950 transition group-hover:text-blue-900">
+                                        <Quote className="mr-2 inline h-5 w-5 text-blue-700" />
                                         {quote.shortText}
                                     </p>
 
-                                    <div className="mt-3 border-t border-black/10 pt-3 transition group-hover:border-white/15">
-                                        <p className="text-sm leading-7 text-[#666] transition group-hover:text-white/75">
+                                    <div className="mt-3 border-t border-slate-200 pt-3 transition group-hover:border-blue-100">
+                                        <p className="text-sm leading-7 text-slate-600 transition group-hover:text-slate-700">
                                             "{quote.fullText}"
                                         </p>
                                     </div>
@@ -186,7 +186,7 @@ const About = () => {
                 {/* TIMELINE -BỐ CỤC */}
                 <section className="mt-20">
                     <div className="mb-10 text-center">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a]">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                             Dòng thời gian
                         </p>
                         <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
@@ -198,9 +198,9 @@ const About = () => {
                         {timeline.map((item, index) => (
                             <div
                                 key={index}
-                                className="group rounded-[30px] border border-black/10 bg-white p-6 text-black shadow-[0_10px_26px_rgba(0,0,0,0.04)] transition hover:-translate-y-1 hover:bg-black hover:text-white"
+                                className="group rounded-[30px] border border-slate-200 bg-white p-6 text-slate-950 shadow-[0_10px_26px_rgba(15,23,42,0.04)] transition hover:-translate-y-1 hover:border-blue-200 hover:bg-blue-50"
                             >
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a] transition group-hover:text-white/55">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700 transition group-hover:text-blue-800">
                                     {item.title}
                                 </p>
 
@@ -208,7 +208,7 @@ const About = () => {
                                     {item.year}
                                 </h3>
 
-                                <p className="mt-4 text-sm leading-8 text-[#5f6368] transition group-hover:text-white/75">
+                                <p className="mt-4 text-sm leading-8 text-slate-600 transition group-hover:text-slate-700">
                                     {item.desc}
                                 </p>
                             </div>
@@ -219,7 +219,7 @@ const About = () => {
                 {/* STORE VIEW */}
                 <section className="mt-20">
                     <div className="mb-10 text-center">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a]">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                             Hình ảnh thương hiệu
                         </p>
                         <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
@@ -235,15 +235,15 @@ const About = () => {
                         ].map((item, index) => (
                             <div
                                 key={index}
-                                className="group relative overflow-hidden rounded-[28px] border border-black/10 shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
+                                className="group relative overflow-hidden rounded-[28px] border border-slate-200 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
                             >
                                 <img
                                     src={item.src}
                                     alt={item.label}
                                     className="h-[420px] w-full object-cover transition duration-500 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-black/25 transition group-hover:bg-black/45" />
-                                <div className="absolute bottom-5 left-5 rounded-full bg-white/90 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-black">
+                                <div className="absolute inset-0 bg-slate-950/15 transition group-hover:bg-slate-950/25" />
+                                <div className="absolute bottom-5 left-5 rounded-full border border-blue-100 bg-white/95 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-blue-700 shadow-[0_10px_22px_rgba(15,23,42,0.12)]">
                                     {item.label}
                                 </div>
                             </div>
@@ -253,9 +253,9 @@ const About = () => {
 
                 {/* SLOGAN */}
                 <section className="mt-20">
-                    <div className="rounded-[36px] border border-black/10 bg-white p-8 shadow-[0_16px_40px_rgba(0,0,0,0.05)] sm:p-12">
+                    <div className="rounded-[36px] border border-slate-200 bg-white p-8 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-12">
                         <div className="mx-auto max-w-4xl text-center">
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#7a7a7a]">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                                 Tuyên ngôn thương hiệu
                             </p>
 
@@ -263,21 +263,21 @@ const About = () => {
                                 Ít ồn ào. Nhiều phong cách.
                             </h2>
 
-                            <p className="mt-5 text-base leading-8 text-[#5f6368] sm:text-lg">
+                            <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
                                 DTCLL SHOP theo đuổi định hướng hình ảnh tinh gọn, tập trung
                                 vào sự tối giản, phom dáng hiện đại và trải nghiệm thời trang
                                 hằng ngày chỉn chu hơn.
                             </p>
 
-                            <div className="mt-10 rounded-[32px] bg-black px-6 py-12 text-white sm:px-12">
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50">
+                            <div className="mt-10 rounded-[32px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-sky-50 px-6 py-12 text-slate-950 sm:px-12">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
                                     Tinh thần cốt lõi
                                 </p>
 
                                 <p className="mt-6 text-3xl font-extrabold leading-tight tracking-[-0.03em] sm:text-5xl">
                                     Ít ồn ào.
                                 </p>
-                                <p className="mt-2 text-3xl font-extrabold leading-tight tracking-[-0.03em] text-white/70 sm:text-5xl">
+                                <p className="mt-2 text-3xl font-extrabold leading-tight tracking-[-0.03em] text-blue-700 sm:text-5xl">
                                     Nhiều phong cách.
                                 </p>
                             </div>
