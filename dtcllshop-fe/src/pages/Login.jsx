@@ -1,8 +1,23 @@
-import React from "react";
-import { useState } from "react";
+﻿import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import { ArrowRight, House, Lock, User } from "lucide-react";
+
+const getTokenRoles = (decodedToken) => {
+  const rawRoles = [
+    decodedToken.scope,
+    decodedToken.role,
+    decodedToken.authorities,
+    decodedToken.roles,
+  ].flatMap((role) => (Array.isArray(role) ? role : [role]));
+
+  return rawRoles
+    .filter(Boolean)
+    .flatMap((role) => role.toString().split(/\s+/))
+    .map((role) => role.toUpperCase());
+};
+
 const Login = () => {
   const navigate = useNavigate();
   const [formAuthentication, setFormAuthentication] = useState({
@@ -35,147 +50,215 @@ const Login = () => {
 
         if (result && result.result && result.result.token) {
           const token = result.result.token;
-
-          // 1. Save token to localStorage (always do this step)
           localStorage.setItem("accessToken", token);
 
-          // 2. Decode the token to extract information
           const decodedToken = jwtDecode(token);
+          console.log("Token đã giải mã:", decodedToken);
 
-          // !!! IMPORTANT: Check your token structure
-          // Run console.log to see the token object structure
-          console.log("Decoded Token:", decodedToken);
+          const roles = getTokenRoles(decodedToken);
 
-          // 3. Extract role/scope from token
-          // Based on your token sample, the permission field might be "scope"
-          const userRole = decodedToken.scope;
+          toast.success("Đăng nhập thành công!");
 
-          toast.success("Login successful!");
-
-          // 5. Navigate based on user role
-          if (userRole === "ADMIN") {
-            navigate("/admin");
-          } else if (userRole === "USER") {
-            // Or any other role
-            navigate("/");
+          if (roles.some((role) => role.includes("ADMIN"))) {
+            navigate("/admin", { replace: true });
+          } else if (roles.some((role) => role.includes("STAFF"))) {
+            navigate("/staff/orders", { replace: true });
           } else {
-            // Redirect to default home page if role is undefined
-            navigate("/staff/orders");
+            navigate("/", { replace: true });
           }
         } else {
-          toast.error("Login failed: Authentication token not received.");
+          toast.error("Đăng nhập thất bại: không nhận được token xác thực.");
         }
       } else {
-        // If server returns error (e.g., wrong password), response.json() might still contain error info
-        let errorData = { message: "Invalid username or password." };
+        let errorData = { message: "Tên đăng nhập hoặc mật khẩu không đúng." };
         try {
           errorData = await response.json();
-        } catch (jsonError) {
-          console.error("Could not parse JSON from error response.");
+        } catch {
+          console.error("Không thể đọc phản hồi lỗi JSON.");
         }
-        console.error("Login error:", errorData);
+        console.error("Lỗi đăng nhập:", errorData);
         toast.error(
-          `Login failed: ${errorData.message || "Please try again."}`
+          `Đăng nhập thất bại: ${errorData.message || "Vui lòng thử lại."}`
         );
       }
     } catch (error) {
-      console.error("Network or unknown error:", error);
+      console.error("Lỗi mạng hoặc lỗi không xác định:", error);
       toast.error(
-        "An error occurred. Please check your network connection and try again."
+        "Có lỗi xảy ra. Vui lòng kiểm tra kết nối mạng và thử lại."
       );
     }
   };
+
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <div className="bg-gray-100 rounded-3xl shadow-2xl overflow-hidden max-w-4xl w-full grid md:grid-cols-2">
-        {/* Left side - Form */}
-        <div className="p-8 md:p-12">
-          <h2 className="font-bold text-5xl mb-12">Sign In</h2>
+    <div className="min-h-screen bg-[#f7f8fb] px-4 py-8 text-slate-950 sm:px-6 lg:px-8">
+      <div className="mx-auto grid min-h-[88vh] max-w-7xl grid-cols-1 overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:grid-cols-[0.95fr_1.05fr]">
+        {/* Left panel */}
+        <div className="flex flex-col border-b border-slate-200 bg-gradient-to-br from-blue-50 via-white to-sky-50 p-8 lg:border-b-0 lg:border-r lg:p-12">
+          <div>
+            <p className="inline-flex rounded-full border border-blue-100 bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
+              DTCLL SHOP • TRUY CẬP TÀI KHOẢN
+            </p>
 
-          {/* BẮT ĐẦU THÊM THẺ FORM TẠI ĐÂY */}
-          <form className="grid gap-6" onSubmit={handleSubmit}>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                {/* ... SVG icon ... */}
-                <label className="text-gray-700 font-medium">User name:</label>
-              </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  name="username"
-                  className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-gray-400 transition"
-                  value={formAuthentication.username}
-                  onChange={handleChange}
-                  placeholder="Username.........."
-                  required
-                />
-              </div>
-            </div>
+            <h1 className="mt-8 text-4xl font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-5xl">
+              Chào mừng trở lại
+              <span className="block text-blue-700">Đăng nhập để tiếp tục</span>
+            </h1>
 
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                {/* ... SVG icon ... */}
-                <label className="text-gray-700 font-medium">Password:</label>
+            <p className="mt-6 max-w-xl text-base leading-8 text-slate-600">
+              Truy cập tài khoản để tiếp tục mua sắm, quản lý hồ sơ,
+              xem đơn hàng và cập nhật những thông tin mới nhất từ DTCLL SHOP.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="rounded-[24px] border border-blue-100 bg-white/85 p-4">
+                <p className="text-2xl font-bold">Nhanh chóng</p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
+                  Truy cập
+                </p>
               </div>
-              <div className="relative">
-                <input
-                  type="password"
-                  name="password"
-                  className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-gray-400 transition"
-                  value={formAuthentication.password}
-                  onChange={handleChange}
-                  placeholder="Password..........."
-                  required
-                />
+              <div className="rounded-[24px] border border-blue-100 bg-white/85 p-4">
+                <p className="text-2xl font-bold">Bảo mật</p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
+                  Đăng nhập
+                </p>
+              </div>
+              <div className="rounded-[24px] border border-blue-100 bg-white/85 p-4">
+                <p className="text-2xl font-bold">Gọn gàng</p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
+                  Trải nghiệm
+                </p>
               </div>
             </div>
+          </div>
 
-            <div className="flex gap-3 items-center mt-2 flex-wrap sm:flex-nowrap">
-              <button
-                type="submit" // Đổi nút này thành submit cũng được, hoặc để onClick
-                className="px-6 py-2 rounded-lg bg-gray-400 text-white font-semibold hover:bg-gray-500 transition whitespace-nowrap"
-              >
-                Sign In
-              </button>
-              <button
-                type="button"
-                className="px-6 py-2 rounded-lg bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition whitespace-nowrap"
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                Sign Up
-              </button>
-              <a
-                href="#"
-                className="text-gray-500 text-sm hover:text-gray-700 whitespace-nowrap sm:ml-auto"
-                onClick={() => {
-                  navigate("/forget_password");
-                }}
-              >
-                Forget Password?
-              </a>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-4 rounded-lg bg-black text-white font-bold text-lg hover:bg-gray-800 transition mt-4"
-            >
-              LOG IN
-            </button>
-            {/* KẾT THÚC THẺ FORM TẠI ĐÂY */}
-          </form>
+          <div className="mt-10 rounded-[32px] border border-blue-100 bg-white/85 p-8 text-slate-950 shadow-[0_12px_30px_rgba(37,99,235,0.08)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
+              Tinh thần cốt lõi
+            </p>
+            <p className="mt-5 text-3xl font-extrabold leading-tight tracking-[-0.03em]">
+              Ít ồn ào.
+            </p>
+            <p className="mt-1 text-3xl font-extrabold leading-tight tracking-[-0.03em] text-blue-700">
+              Nhiều phong cách.
+            </p>
+          </div>
         </div>
 
-        {/* Right side - Image */}
-        <div className="hidden md:flex items-center justify-center bg-gradient-to-br from-red-400 to-red-500 p-12">
-          <div className="relative">
-            <div className="absolute inset-0 bg-red-300 rounded-full blur-3xl opacity-50"></div>
-            <img
-              src="https://i.postimg.cc/J0TgG6NZ/Thiet-ke-chua-co-ten-(6).png"
-              alt="Profile"
-              className="relative rounded-full w-80 h-80 object-cover border-8 border-white shadow-2xl"
-            />
+        {/* Right panel */}
+        <div className="flex items-center justify-center p-8 lg:p-12">
+          <div className="w-full max-w-xl">
+            <div className="mb-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700">
+                Đăng nhập
+              </p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] sm:text-4xl">
+                Đăng nhập tài khoản
+              </h2>
+              <p className="mt-3 text-base leading-8 text-slate-600">
+                Nhập thông tin tài khoản bên dưới để truy cập DTCLL SHOP.
+              </p>
+            </div>
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label className="mb-3 block text-sm font-semibold text-slate-950">
+                  Tên đăng nhập
+                </label>
+                <div className="flex items-center gap-3 rounded-[20px] border border-[#E0E0E0] bg-[#F9F9F9] px-4 py-4 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100">
+                  <User className="h-5 w-5 text-blue-700" />
+                  <input
+                    type="text"
+                    name="username"
+                    className="w-full bg-transparent text-base outline-none placeholder:text-slate-400"
+                    value={formAuthentication.username}
+                    onChange={handleChange}
+                    placeholder="Nhập tên đăng nhập"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-3 block text-sm font-semibold text-slate-950">
+                  Mật khẩu
+                </label>
+                <div className="flex items-center gap-3 rounded-[20px] border border-[#E0E0E0] bg-[#F9F9F9] px-4 py-4 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100">
+                  <Lock className="h-5 w-5 text-blue-700" />
+                  <input
+                    type="password"
+                    name="password"
+                    className="w-full bg-transparent text-base outline-none placeholder:text-slate-400"
+                    value={formAuthentication.password}
+                    onChange={handleChange}
+                    placeholder="Nhập mật khẩu"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="button"
+                  className="text-left text-sm font-medium text-slate-600 transition hover:text-blue-700"
+                  onClick={() => {
+                    navigate("/forget_password");
+                  }}
+                >
+                  Quên mật khẩu?
+                </button>
+
+                <button
+                  type="button"
+                  className="text-left text-sm font-medium text-slate-600 transition hover:text-blue-700"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  Chưa có tài khoản? Đăng ký
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <button
+                  type="submit"
+                  className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(37,99,235,0.22)] transition hover:bg-blue-700"
+                >
+                  Đăng nhập
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <button
+                  type="button"
+                  className="inline-flex h-14 items-center justify-center rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-800 transition hover:border-blue-200 hover:bg-blue-50"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  Tạo tài khoản
+                </button>
+
+                <button
+                  type="button"
+                  className="inline-flex h-14 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-800 transition hover:border-blue-200 hover:bg-blue-50"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  {/* <House className="h-4 w-4" /> */}
+                  Về trang chủ
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-8 rounded-[24px] border border-blue-100 bg-blue-50 p-5">
+              <p className="text-sm font-semibold text-slate-950">
+                Lưu ý đăng nhập
+              </p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">
+                Quyền truy cập phụ thuộc vào vai trò tài khoản. Sau khi đăng
+                nhập, hệ thống sẽ chuyển bạn đến đúng khu vực sử dụng.
+              </p>
+            </div>
           </div>
         </div>
       </div>
