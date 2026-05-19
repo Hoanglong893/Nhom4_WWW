@@ -33,7 +33,7 @@ const ProductDashboard = ({ onNavigate }) => {
   const [statsData, setStatsData] = useState([
     {
       id: 'total',
-      title: "Total Products",
+      title: "Tổng Sản Phẩm",
       value: "...",
       icon: Package,
       color: "bg-blue-500",
@@ -42,7 +42,7 @@ const ProductDashboard = ({ onNavigate }) => {
     },
     {
       id: 'lowstock',
-      title: "Low Stock Alert",
+      title: "Cảnh Báo Hết Hàng",
       value: "...",
       icon: AlertTriangle,
       color: "bg-orange-500",
@@ -86,9 +86,9 @@ const ProductDashboard = ({ onNavigate }) => {
       console.error("API ERROR:", error);
       // Fallback data fake để UI đẹp khi không có API
       setCategoryData([
-        { name: "Electronics", revenue: 50000000, color: COLORS[0] },
-        { name: "Fashion", revenue: 30000000, color: COLORS[1] },
-        { name: "Home", revenue: 15000000, color: COLORS[2] },
+        { name: "Áo Nam", revenue: 50000000, color: COLORS[0] },
+        { name: "Quần Nam", revenue: 30000000, color: COLORS[1] },
+        { name: "Phụ Kiện", revenue: 15000000, color: COLORS[2] },
       ]);
     }
   };
@@ -125,25 +125,25 @@ const ProductDashboard = ({ onNavigate }) => {
       const data = await res.json();
 
       const mapDayToEN = (dayEn) => {
-        const days = { "MONDAY": "Mon", "TUESDAY": "Tue", "WEDNESDAY": "Wed", "THURSDAY": "Thu", "FRIDAY": "Fri", "SATURDAY": "Sat", "SUNDAY": "Sun" };
+        const days = { "MONDAY": "Thứ 2", "TUESDAY": "Thứ 3", "WEDNESDAY": "Thứ 4", "THURSDAY": "Thứ 5", "FRIDAY": "Thứ 6", "SATURDAY": "Thứ 7", "SUNDAY": "Chủ Nhật" };
         return days[dayEn] || dayEn;
       };
 
       const formatted = data.map((item) => {
         let rawValue = typeof item.profit === 'string' ? parseFloat(item.profit.replace(/,/g, '')) : item.profit;
-        let displayName = filter === "week" ? mapDayToEN(item.day) : (filter === "month" ? `M${item.month}` : `${item.year}`);
+        let displayName = filter === "week" ? mapDayToEN(item.day) : (filter === "month" ? `Tháng ${item.month}` : `Năm ${item.year}`);
         
         return {
           name: displayName,
           profitRaw: rawValue || 0,
-          profitFormatted: new Intl.NumberFormat('en-US').format(rawValue || 0)
+          profitFormatted: new Intl.NumberFormat('vi-VN').format(rawValue || 0)
         };
       });
       setChartData(formatted);
     } catch (e) {
       console.error(e);
       // Fake data for chart visualization if API fails
-      setChartData(Array.from({length: 7}, (_, i) => ({ name: `Day ${i+1}`, profitRaw: Math.random() * 1000000 })));
+      setChartData(Array.from({length: 7}, (_, i) => ({ name: `Thứ ${i+2}`, profitRaw: Math.random() * 1000000 })));
     }
   };
 
@@ -158,10 +158,10 @@ const ProductDashboard = ({ onNavigate }) => {
               <Sparkles className="text-white" size={28} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-800">Dashboard Overview</h1>
+              <h1 className="text-3xl font-bold text-slate-800">Tổng Quan Báo Cáo</h1>
               <p className="text-slate-500 mt-1 flex items-center gap-2 text-sm font-medium">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                System Status: Operational
+                Trạng thái hệ thống: Hoạt động bình thường
               </p>
             </div>
           </div>
@@ -169,11 +169,11 @@ const ProductDashboard = ({ onNavigate }) => {
           <div className="flex gap-3">
              <button className="flex items-center gap-2 px-5 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-semibold hover:bg-slate-50 transition-colors">
                 <Calendar size={18} />
-                <span>Select Date</span>
+                <span>Chọn Ngày</span>
              </button>
              <button className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-semibold shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all hover:-translate-y-1">
                 <Download size={18} />
-                <span>Export Report</span>
+                <span>Xuất Báo Cáo</span>
              </button>
           </div>
         </div>
@@ -201,7 +201,7 @@ const ProductDashboard = ({ onNavigate }) => {
               </div>
               
               <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-indigo-600 group-hover:gap-2 transition-all">
-                <span>View Details</span>
+                <span>Xem Chi Tiết</span>
                 <ChevronRight size={16} />
               </div>
             </div>
@@ -214,18 +214,22 @@ const ProductDashboard = ({ onNavigate }) => {
                 <div>
                     <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                         <BarChart3 className="text-indigo-600" size={24} />
-                        Profit Analytics
+                        Phân Tích Lợi Nhuận
                     </h2>
-                    <p className="text-sm text-slate-500 mt-1">Revenue vs Costs performance over time</p>
+                    <p className="text-sm text-slate-500 mt-1">Doanh thu so với hiệu suất chi phí theo thời gian</p>
                 </div>
                 <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
-                    {["week", "month", "year"].map((t) => (
+                    {[
+                      { label: "Tuần", value: "week" },
+                      { label: "Tháng", value: "month" },
+                      { label: "Năm", value: "year" }
+                    ].map((t) => (
                     <button
-                        key={t}
-                        onClick={() => setTimeFilter(t)}
-                        className={`px-4 py-2 text-sm font-bold rounded-lg capitalize transition-all ${timeFilter === t ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                        key={t.value}
+                        onClick={() => setTimeFilter(t.value)}
+                        className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${timeFilter === t.value ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
                     >
-                        {t}
+                        {t.label}
                     </button>
                     ))}
                 </div>
@@ -245,7 +249,7 @@ const ProductDashboard = ({ onNavigate }) => {
                     <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} tickFormatter={(val) => `${val/1000}k`} />
                     <Tooltip 
                         contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                        formatter={(val) => [`${new Intl.NumberFormat('en-US').format(val)}`, 'Profit']}
+                        formatter={(val) => [`${new Intl.NumberFormat('vi-VN').format(val)} đ`, 'Lợi nhuận']}
                     />
                     <Area type="monotone" dataKey="profitRaw" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorProfit)" />
                 </AreaChart>
@@ -260,7 +264,7 @@ const ProductDashboard = ({ onNavigate }) => {
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8 flex flex-col">
                 <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                     <PieIcon className="text-indigo-600" size={24} />
-                    Revenue by Category
+                    Doanh Thu theo Danh Mục
                 </h2>
                 
                 <div className="flex flex-col md:flex-row items-center gap-8 h-full">
@@ -294,7 +298,7 @@ const ProductDashboard = ({ onNavigate }) => {
                                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }}></span>
                                     <span className="text-sm font-medium text-slate-700">{cat.name}</span>
                                 </div>
-                                <span className="text-sm font-bold text-slate-900">{new Intl.NumberFormat('en', { notation: "compact" }).format(cat.revenue)}</span>
+                                <span className="text-sm font-bold text-slate-900">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', notation: "compact" }).format(cat.revenue)}</span>
                             </div>
                          ))}
                     </div>
@@ -305,7 +309,7 @@ const ProductDashboard = ({ onNavigate }) => {
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8">
                 <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                     <Star className="text-amber-500" size={24} fill="currentColor" />
-                    Customer Satisfaction
+                    Mức Độ Hài Lòng Của Khách Hàng
                 </h2>
 
                 <div className="flex items-center gap-6 mb-8">
@@ -314,7 +318,7 @@ const ProductDashboard = ({ onNavigate }) => {
                          <div className="flex gap-1 justify-center mb-2">
                              {[1,2,3,4,5].map(s => <Star key={s} size={14} className="text-amber-400 fill-amber-400" />)}
                          </div>
-                         <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Total Score</p>
+                         <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Điểm Đánh Giá</p>
                      </div>
                      
                      <div className="flex-1 space-y-3">
@@ -338,9 +342,9 @@ const ProductDashboard = ({ onNavigate }) => {
                         <Sparkles size={16} className="text-indigo-600" />
                     </div>
                     <div>
-                        <h4 className="text-sm font-bold text-indigo-900">AI Insight</h4>
+                        <h4 className="text-sm font-bold text-indigo-900">Phân Tích AI</h4>
                         <p className="text-sm text-indigo-700/80 leading-relaxed mt-1">
-                            Most positive reviews mention "Fast Delivery". Consider highlighting this in your marketing campaigns.
+                            Hầu hết các phản hồi tích cực đều đề cập đến "Giao Hàng Nhanh". Hãy cân nhắc làm nổi bật điều này trong chiến dịch quảng bá của bạn.
                         </p>
                     </div>
                 </div>
@@ -353,14 +357,14 @@ const ProductDashboard = ({ onNavigate }) => {
             {/* Top Products (Chiếm 2 phần) */}
             <div className="xl:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8">
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-slate-800">Top Trending Products</h2>
+                    <h2 className="text-xl font-bold text-slate-800">Sản Phẩm Bán Chạy Xu Hướng</h2>
                     <select 
                         value={type} 
                         onChange={(e) => setType(e.target.value)}
                         className="bg-slate-50 border-none text-sm font-bold text-slate-600 py-2 px-4 rounded-xl focus:ring-2 focus:ring-indigo-200 cursor-pointer"
                     >
-                        <option value="week">This Week</option>
-                        <option value="month">This Month</option>
+                        <option value="week">Tuần Này</option>
+                        <option value="month">Tháng Này</option>
                     </select>
                 </div>
                 
@@ -368,10 +372,10 @@ const ProductDashboard = ({ onNavigate }) => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
-                                <th className="pb-4 pl-2">Product Name</th>
-                                <th className="pb-4">Category</th>
-                                <th className="pb-4">Sales</th>
-                                <th className="pb-4 text-right pr-2">Trend</th>
+                                <th className="pb-4 pl-2">Tên Sản Phẩm</th>
+                                <th className="pb-4">Danh Mục</th>
+                                <th className="pb-4">Số lượng bán</th>
+                                <th className="pb-4 text-right pr-2">Xu Hướng</th>
                             </tr>
                         </thead>
                         <tbody className="text-sm">
@@ -392,7 +396,7 @@ const ProductDashboard = ({ onNavigate }) => {
                                     </td>
                                 </tr>
                             )) : (
-                                <tr><td colSpan="4" className="text-center py-8 text-slate-400">No data available</td></tr>
+                                <tr><td colSpan="4" className="text-center py-8 text-slate-400">Không có dữ liệu</td></tr>
                             )}
                         </tbody>
                     </table>
@@ -402,12 +406,12 @@ const ProductDashboard = ({ onNavigate }) => {
             {/* Inventory Health (Chiếm 1 phần) */}
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8 flex flex-col justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-slate-800 mb-6">Inventory Health</h2>
+                    <h2 className="text-xl font-bold text-slate-800 mb-6">Sức Khỏe Kho Hàng</h2>
                     <div className="space-y-6">
                         {[
-                            { label: "Available Stock", val: "85%", color: "bg-emerald-500", bg: "bg-emerald-50", icon: CheckCircle, text: "text-emerald-600" },
-                            { label: "Low Stock Alert", val: "12%", color: "bg-amber-500", bg: "bg-amber-50", icon: AlertCircle, text: "text-amber-600" },
-                            { label: "Unsellable / Dead", val: "3%", color: "bg-rose-500", bg: "bg-rose-50", icon: Clock, text: "text-rose-600" },
+                            { label: "Hàng Có Sẵn", val: "85%", color: "bg-emerald-500", bg: "bg-emerald-50", icon: CheckCircle, text: "text-emerald-600" },
+                            { label: "Cảnh Báo Hết Hàng", val: "12%", color: "bg-amber-500", bg: "bg-amber-50", icon: AlertCircle, text: "text-amber-600" },
+                            { label: "Hàng Tồn Lâu", val: "3%", color: "bg-rose-500", bg: "bg-rose-50", icon: Clock, text: "text-rose-600" },
                         ].map((item, i) => (
                             <div key={i}>
                                 <div className="flex justify-between items-center mb-2">
@@ -429,7 +433,7 @@ const ProductDashboard = ({ onNavigate }) => {
                 
                 <div className="mt-8 pt-6 border-t border-slate-100">
                     <button className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-indigo-600 transition-colors shadow-lg shadow-slate-200">
-                        Manage Inventory
+                        Quản Lý Kho Hàng
                     </button>
                 </div>
             </div>

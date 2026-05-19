@@ -282,9 +282,9 @@ export default function Customers() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-3">
-                <FaUser className="text-purple-600" /> Customer Management
+                <FaUser className="text-purple-600" /> Quản Lý Khách Hàng
               </h1>
-              <p className="text-gray-500 mt-1">Manage and track your customers</p>
+              <p className="text-gray-500 mt-1">Quản lý và theo dõi thông tin khách hàng của bạn</p>
             </div>
 
             <div className="flex gap-3">
@@ -292,14 +292,14 @@ export default function Customers() {
                 className="bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 font-medium"
                 onClick={openCreate}
               >
-                <FaPlus /> Add Customer
+                <FaPlus /> Thêm Khách Hàng
               </button>
 
               <button
                 className="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 font-medium"
                 onClick={sendEmail}
               >
-                <FaMailBulk /> Send Email
+                <FaMailBulk /> Gửi Email Khuyến Mãi
               </button>
             </div>
           </div>
@@ -312,7 +312,7 @@ export default function Customers() {
             <div className="flex-1 w-full md:w-auto">
               <input
                 type="text"
-                placeholder="Search by name..."
+                placeholder="Tìm kiếm theo tên..."
                 className="w-full border-2 border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
@@ -326,9 +326,9 @@ export default function Customers() {
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="">All Status</option>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="LOCKED">LOCKED</option>
+                <option value="">Tất cả Trạng thái</option>
+                <option value="ACTIVE">Đang Hoạt Động</option>
+                <option value="LOCKED">Bị Khóa</option>
               </select>
             </div>
 
@@ -337,7 +337,7 @@ export default function Customers() {
               className="w-full md:w-auto px-6 py-2.5 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
               onClick={loadCustomers}
             >
-              Filter
+              Lọc
             </button>
           </div>
         </div>
@@ -347,13 +347,13 @@ export default function Customers() {
           <div className="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-xl shadow-sm">
             <div className="flex items-center gap-2">
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-700"></div>
-              Loading...
+              Đang tải...
             </div>
           </div>
         )}
         {error && (
           <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-sm">
-            Error: {error}
+            Lỗi: {error}
           </div>
         )}
 
@@ -363,12 +363,12 @@ export default function Customers() {
             <table className="w-full">
               <thead className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Họ và Tên</th>
                   <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Phone Number</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Số Điện Thoại</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Vai Trò</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">Trạng Thái</th>
+                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase tracking-wider">Hành Động</th>
                 </tr>
               </thead>
 
@@ -389,7 +389,7 @@ export default function Customers() {
                       <td className="px-6 py-4 text-gray-700">{c.customer.phoneNumber}</td>
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                          {c.role}
+                          {c.role === 'USER' ? 'Khách Hàng' : c.role}
                         </span>
                       </td>
                       <td className="px-6 py-4">
@@ -397,7 +397,7 @@ export default function Customers() {
                           ? 'bg-green-100 text-green-800'
                           : 'bg-red-100 text-red-800'
                           }`}>
-                          {c.statusLogin}
+                          {c.statusLogin === 'ACTIVE' ? 'Hoạt động' : 'Bị Khóa'}
                         </span>
                       </td>
 
@@ -408,7 +408,7 @@ export default function Customers() {
                             onClick={() => openDetail(c)}
                           >
                             <FaEye />
-                            <span className="text-sm font-medium">Detail</span>
+                            <span className="text-sm font-medium">Chi Tiết</span>
                           </button>
 
                           <button
@@ -416,7 +416,7 @@ export default function Customers() {
                             onClick={() => openEdit(c)}
                           >
                             <FaEdit />
-                            <span className="text-sm font-medium">Update</span>
+                            <span className="text-sm font-medium">Cập Nhật</span>
                           </button>
 
                           <button
@@ -424,7 +424,7 @@ export default function Customers() {
                             onClick={() => blockAccount(c)}
                           >
                             <FaBan />
-                            <span className="text-sm font-medium">Block</span>
+                            <span className="text-sm font-medium">Khóa</span>
                           </button>
                         </div>
                       </td>
@@ -436,7 +436,7 @@ export default function Customers() {
                     <td colSpan={6} className="px-6 py-12 text-center">
                       <div className="text-gray-400">
                         <FaUser className="mx-auto text-4xl mb-3 opacity-50" />
-                        <p className="text-lg font-medium">No customers found</p>
+                        <p className="text-lg font-medium">Không tìm thấy khách hàng nào</p>
                       </div>
                     </td>
                   </tr>
@@ -454,8 +454,8 @@ export default function Customers() {
               <div className="p-6 border-b border-gray-100 bg-linear-to-r from-purple-50 to-indigo-50 rounded-t-3xl">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Customer Details</h2>
-                    <p className="text-sm text-gray-500 mt-1">Complete customer information</p>
+                    <h2 className="text-2xl font-bold text-gray-900">Chi Tiết Khách Hàng</h2>
+                    <p className="text-sm text-gray-500 mt-1">Thông tin chi tiết đầy đủ của khách hàng</p>
                   </div>
                   <button
                     className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
@@ -474,16 +474,16 @@ export default function Customers() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                       <span className="w-1 h-6 bg-linear-to-b from-purple-500 to-indigo-500 rounded-full"></span>
-                      Customer Information
+                      Thông Tin Cá Nhân
                     </h3>
 
                     <div className="space-y-3 bg-gray-50 rounded-xl p-4">
                       <div className="flex items-start gap-3">
-                        <strong className="text-gray-700 min-w-[120px]">Full Name:</strong>
+                        <strong className="text-gray-700 min-w-[120px]">Họ và Tên:</strong>
                         <span className="text-gray-900 font-medium">{selectedCustomer.fullName}</span>
                       </div>
                       <div className="flex items-start gap-3">
-                        <strong className="text-gray-700 min-w-[120px]">Phone Number:</strong>
+                        <strong className="text-gray-700 min-w-[120px]">Số Điện Thoại:</strong>
                         <span className="text-gray-900">{selectedCustomer.phoneNumber}</span>
                       </div>
                       <div className="flex items-start gap-3">
@@ -491,26 +491,26 @@ export default function Customers() {
                         <span className="text-gray-900">{selectedCustomer.email}</span>
                       </div>
                       <div className="flex items-start gap-3">
-                        <strong className="text-gray-700 min-w-[120px]">Gender:</strong>
+                        <strong className="text-gray-700 min-w-[120px]">Giới Tính:</strong>
                         <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
-                          {selectedCustomer.gender}
+                          {selectedCustomer.gender === 'MALE' ? 'Nam' : selectedCustomer.gender === 'FEMALE' ? 'Nữ' : 'Khác'}
                         </span>
                       </div>
                       <div className="flex items-start gap-3">
-                        <strong className="text-gray-700 min-w-[120px]">Date of Birth:</strong>
+                        <strong className="text-gray-700 min-w-[120px]">Ngày Sinh:</strong>
                         <span className="text-gray-900">{selectedCustomer.dateOfBirth}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column — Order History (commented out in original) */}
+                  {/* Right Column — Order History */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                       <span className="w-1 h-6 bg-linear-to-b from-green-500 to-emerald-500 rounded-full"></span>
-                      Additional Info
+                      Thông Tin Bổ Sung
                     </h3>
                     <div className="bg-gray-50 rounded-xl p-4">
-                      <p className="text-gray-500 italic text-center py-8">No additional information available</p>
+                      <p className="text-gray-500 italic text-center py-8">Không có thông tin bổ sung nào khác</p>
                     </div>
                   </div>
 
@@ -523,7 +523,7 @@ export default function Customers() {
                   className="px-6 py-3 bg-linear-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5"
                   onClick={() => setShowDetail(false)}
                 >
-                  Close
+                  Đóng
                 </button>
               </div>
 
@@ -540,10 +540,10 @@ export default function Customers() {
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">
-                      {editingAccount ? "Edit Customer" : "Create New Customer"}
+                      {editingAccount ? "Chỉnh Sửa Khách Hàng" : "Thêm Khách Hàng Mới"}
                     </h2>
                     <p className="text-sm text-gray-500 mt-1">
-                      {editingAccount ? "Update customer information" : "Fill in the details to create a new customer"}
+                      {editingAccount ? "Cập nhật thông tin chi tiết khách hàng" : "Điền thông tin bên dưới để tạo khách hàng mới"}
                     </p>
                   </div>
                   <button
@@ -562,16 +562,16 @@ export default function Customers() {
                   <div className="space-y-5">
                     <h3 className="font-bold text-lg text-gray-900 flex items-center gap-2">
                       <span className="w-1 h-6 bg-linear-to-b from-purple-500 to-indigo-500 rounded-full"></span>
-                      Customer Information
+                      Thông Tin Khách Hàng
                     </h3>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Full Name</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Họ và Tên</label>
                       <input
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                         value={form.customer.fullName}
                         onChange={e => handleChange("customer.fullName", e.target.value)}
-                        placeholder="Enter full name"
+                        placeholder="Nhập họ và tên"
                       />
                     </div>
 
@@ -586,31 +586,31 @@ export default function Customers() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Phone Number</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Số Điện Thoại</label>
                       <input
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                         value={form.customer.phoneNumber}
                         onChange={e => handleChange("customer.phoneNumber", e.target.value)}
-                        placeholder="+84 xxx xxx xxx"
+                        placeholder="Nhập số điện thoại"
                       />
                     </div>
 
                     {/* GENDER */}
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Gender</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Giới Tính</label>
                       <select
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200 bg-white"
                         value={form.customer.gender}
                         onChange={e => handleChange("customer.gender", e.target.value)}
                       >
-                        <option value="MALE">MALE</option>
-                        <option value="FEMALE">FEMALE</option>
-                        <option value="OTHER">OTHER</option>
+                        <option value="MALE">Nam</option>
+                        <option value="FEMALE">Nữ</option>
+                        <option value="OTHER">Khác</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Date of Birth</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Ngày Sinh</label>
                       <input
                         type="date"
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
@@ -624,50 +624,50 @@ export default function Customers() {
                   <div className="space-y-5">
                     <h3 className="font-bold text-lg text-gray-900 flex items-center gap-2">
                       <span className="w-1 h-6 bg-linear-to-b from-blue-500 to-indigo-500 rounded-full"></span>
-                      Account Information
+                      Thông Tin Tài Khoản
                     </h3>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Username</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Tên Đăng Nhập</label>
                       <input
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                         value={form.username}
                         onChange={e => handleChange("username", e.target.value)}
-                        placeholder="Enter username"
+                        placeholder="Nhập tên đăng nhập"
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Password</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Mật Khẩu</label>
                       <input
                         type="password"
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                         value={form.password}
                         onChange={e => handleChange("password", e.target.value)}
-                        placeholder={editingAccount ? "Enter new password..." : "Enter password"}
+                        placeholder={editingAccount ? "Nhập mật khẩu mới..." : "Nhập mật khẩu"}
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Role</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Vai Trò</label>
                       <input
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
                         value={form.role}
                         onChange={e => handleChange("role", e.target.value)}
-                        placeholder="Enter role"
+                        placeholder="Nhập vai trò"
                       />
                     </div>
 
                     {/* STATUS */}
                     <div>
-                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Status</label>
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">Trạng Thái</label>
                       <select
                         className="border-2 border-gray-200 p-3 rounded-xl w-full focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200 bg-white"
                         value={form.statusLogin}
                         onChange={e => handleChange("statusLogin", e.target.value)}
                       >
-                        <option value="ACTIVE">ACTIVE</option>
-                        <option value="LOCKED">LOCKED</option>
+                        <option value="ACTIVE">Hoạt động</option>
+                        <option value="LOCKED">Bị Khóa</option>
                       </select>
                     </div>
                   </div>
@@ -681,14 +681,14 @@ export default function Customers() {
                   className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 hover:border-gray-400 font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
                   onClick={() => { setShowCreate(false); setEditingAccount(null); }}
                 >
-                  Cancel
+                  Hủy
                 </button>
 
                 <button
                   className="px-6 py-3 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5"
                   onClick={submitForm}
                 >
-                  {editingAccount ? "Save Changes" : "Create Customer"}
+                  {editingAccount ? "Lưu Thay Đổi" : "Tạo Khách Hàng"}
                 </button>
               </div>
 

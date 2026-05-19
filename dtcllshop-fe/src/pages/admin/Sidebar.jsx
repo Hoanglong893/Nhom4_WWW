@@ -1,3 +1,5 @@
+import React from 'react';
+// Tối ưu hóa layout và logic điều hướng cho Admin Dashboard
 ﻿import React from 'react';
 import { BarChart3, Umbrella, Users, Package, Settings, LogOut, Menu, X, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -6,6 +8,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
   return (
     <div className={`${sidebarOpen ? 'w-64' : 'w-20'} admin-sidebar transition-all duration-300 flex flex-col`}>
       <div className="p-4 flex items-center justify-between">
+        {sidebarOpen && <h2 className="text-xl font-bold">Bảng Điều Khiển</h2>}
+        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-gray-800 rounded">
         {sidebarOpen && <h2 className="admin-sidebar-title">DTCLL Admin</h2>}
         <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-full hover:bg-white/10">
           {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
@@ -20,6 +24,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
           }`}
         >
           <BarChart3 size={20} />
+          {sidebarOpen && <span>Tổng Quan</span>}
           {sidebarOpen && <span>Tổng quan</span>}
         </button>
 
@@ -30,6 +35,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
           }`}
         >
           <Users size={20} />
+          {sidebarOpen && <span>Khách Hàng</span>}
           {sidebarOpen && <span>Khách hàng</span>}
         </button>
 
@@ -40,6 +46,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
           }`}
         >
           <Umbrella size={20} />
+          {sidebarOpen && <span>Nhân Viên</span>}
           {sidebarOpen && <span>Nhân viên</span>}
         </button>
 
@@ -50,6 +57,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
           }`}
         >
           <Package size={20} />
+          {sidebarOpen && <span>Sản Phẩm</span>}
           {sidebarOpen && <span>Sản phẩm</span>}
         </button>
 
@@ -60,6 +68,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
           }`}
         >
           <TrendingUp size={20} />
+          {sidebarOpen && <span>Thống Kê Sản Phẩm</span>}
           {sidebarOpen && <span>Tổng quan sản phẩm</span>}
         </button>
       </nav>
@@ -71,6 +80,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, activeTab, setAct
             navigate("/login")}}
         >
           <LogOut size={20} />
+          {sidebarOpen && <span>Đăng Xuất</span>}
           {sidebarOpen && <span>Đăng xuất</span>}
         </button>
       </div>
