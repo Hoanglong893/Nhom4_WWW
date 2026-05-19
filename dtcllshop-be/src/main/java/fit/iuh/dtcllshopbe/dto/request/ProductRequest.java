@@ -1,11 +1,8 @@
 package fit.iuh.dtcllshopbe.dto.request;
 
-import fit.iuh.dtcllshopbe.entities.*;
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
 import java.util.List;
 
 @Data

@@ -4,13 +4,11 @@ import fit.iuh.dtcllshopbe.enums.Role;
 import fit.iuh.dtcllshopbe.enums.StatusLogin;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.*;
 
 @Data
 @NoArgsConstructor

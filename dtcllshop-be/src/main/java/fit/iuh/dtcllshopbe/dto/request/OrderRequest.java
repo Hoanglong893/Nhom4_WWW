@@ -1,5 +1,6 @@
 package fit.iuh.dtcllshopbe.dto.request;
 
+import fit.iuh.dtcllshopbe.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MeetingRequest {
-    String title;
-    String description;
-    String startTime;
-    String endTime;
+public class OrderRequest {
+    private String note;
+    private int customerTradingId;
+    private int account_id;
+    private PaymentMethod paymentMethod;
 }
