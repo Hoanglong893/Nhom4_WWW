@@ -357,15 +357,15 @@ export default function Products({ initialFilter = 'ALL' }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Product Management
+                Quản Lý Sản Phẩm
               </h1>
-              <p className="text-gray-500 mt-1">Management And Follow Products Of Store</p>
+              <p className="text-gray-500 mt-1">Quản lý và theo dõi danh sách sản phẩm trong cửa hàng</p>
             </div>
 
             <div className="flex gap-3 flex-wrap">
 
               <button onClick={handleExport} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all">
-                <FaDownload /> <span className="font-medium">Export</span>
+                <FaDownload /> <span className="font-medium">Xuất file CSV</span>
               </button>
 
               <button onClick={openAddModal} className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all">
@@ -399,7 +399,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
               >
-                <option value="ALL">All</option>
+                <option value="ALL">Tất cả danh mục</option>
                 {/* Map categories từ API hoặc hardcode nếu muốn */}
                 <option value="Top">Top </option>
                 <option value="Bottom">Bottom </option>
@@ -418,9 +418,9 @@ export default function Products({ initialFilter = 'ALL' }) {
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
               >
-                <option value="ALL">All</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
+                <option value="ALL">Tất cả trạng thái</option>
+                <option value="ACTIVE">Đang hoạt động</option>
+                <option value="INACTIVE">Ngừng hoạt động</option>
               </select>
             </div>
 
@@ -432,11 +432,11 @@ export default function Products({ initialFilter = 'ALL' }) {
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
               >
-                <option value="newest">Latest</option>
-                <option value="price-asc">Price: low to high</option>
-                <option value="price-desc">Price: high to low</option>
-                <option value="name-asc">Name: A - Z</option>
-                <option value="stock-desc">The most stock</option>
+                <option value="newest">Mới nhất</option>
+                <option value="price-asc">Giá: Thấp đến Cao</option>
+                <option value="price-desc">Giá: Cao đến Thấp</option>
+                <option value="name-asc">Tên: A - Z</option>
+                <option value="stock-desc">Tồn kho nhiều nhất</option>
               </select>
             </div>
 
@@ -449,12 +449,12 @@ export default function Products({ initialFilter = 'ALL' }) {
             <table className="w-full">
               <thead className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Product Name</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Category</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Price (VNĐ)</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Stock Qty</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Status</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Tên Sản Phẩm</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Danh Mục</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Giá bán (VNĐ)</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Số Lượng Kho</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Trạng Thái</th>
+                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase">Hành Động</th>
                 </tr>
               </thead>
 
@@ -494,11 +494,11 @@ export default function Products({ initialFilter = 'ALL' }) {
                       <td className="px-6 py-4">
                         {p.status === "ACTIVE" ? (
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                            <span className="w-1.5 h-1.5 bg-green-600 rounded-full mr-2"></span> ACTIVE
+                            <span className="w-1.5 h-1.5 bg-green-600 rounded-full mr-2"></span> Hoạt động
                           </span>
                         ) : (
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-                            <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span> INACTIVE
+                            <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span> Ngừng hoạt động
                           </span>
                         )}
                       </td>
