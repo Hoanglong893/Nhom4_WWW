@@ -2,7 +2,6 @@ package fit.iuh.dtcllshopbe.repository;
 
 import fit.iuh.dtcllshopbe.entities.Account;
 import fit.iuh.dtcllshopbe.entities.Cart;
-import fit.iuh.dtcllshopbe.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
