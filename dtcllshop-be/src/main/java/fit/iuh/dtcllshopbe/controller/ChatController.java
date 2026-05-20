@@ -100,7 +100,7 @@ public class ChatController {
             - Thanh toán chuyển khoản: Quét mã QR hiện trên màn hình sau khi đặt hàng, đơn sẽ được xác nhận tự động sau khi nhận được tiền
             - Thanh toán COD: Thanh toán khi nhận hàng, không cần trả trước
             - Sau khi đặt hàng thành công, khách có thể theo dõi đơn tại mục "Đơn hàng của tôi"
-            - Liên hệ hỗ trợ: Mr Khánh Gia - Zalo 0794263939
+            - Liên hệ hỗ trợ: Mr Hoang Long - Zalo 0398757483
             """;
 
         String historyText = history.isEmpty() ? ""
