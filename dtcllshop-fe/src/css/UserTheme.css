@@ -1,0 +1,274 @@
+.user-theme {
+  --user-accent: #2563eb;
+  --user-accent-strong: #1d4ed8;
+  --user-accent-soft: #dbeafe;
+  --user-bg: #f3f4f6;
+  --user-bg-soft: #f8fafc;
+  --user-surface: #ffffff;
+  --user-border: #e2e8f0;
+  --user-text: #0f172a;
+  --user-muted: #64748b;
+  --user-success-bg: #dcfce7;
+  --user-success-text: #166534;
+  --user-warning-bg: #ffedd5;
+  --user-warning-text: #c2410c;
+  --user-danger-bg: #fee2e2;
+  --user-danger-text: #b91c1c;
+  --user-info-bg: #dbeafe;
+  --user-info-text: #1d4ed8;
+  min-height: 100vh;
+  background: var(--user-bg);
+  color: var(--user-text);
+  letter-spacing: 0;
+}
+
+.user-theme main {
+  background: var(--user-bg);
+}
+
+.user-theme * {
+  letter-spacing: 0 !important;
+}
+
+.user-theme h1,
+.user-theme h2,
+.user-theme h3 {
+  color: var(--user-text);
+}
+
+.user-theme [class*="bg-[#f3f3f1]"],
+.user-theme [class*="bg-[#ececea]"],
+.user-theme [class*="bg-[#f8f8f7]"],
+.user-theme .bg-gray-50,
+.user-theme [class*="bg-gray-50"] {
+  background-color: var(--user-bg) !important;
+}
+
+.user-theme .bg-gray-100,
+.user-theme [class*="bg-gray-100"],
+.user-theme [class*="bg-[#fafafa]"],
+.user-theme [class*="bg-[#f7f7f7]"] {
+  background-color: var(--user-bg-soft) !important;
+}
+
+.user-theme .bg-white,
+.user-theme [class*="bg-white/"] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+
+.user-theme [class*="rounded-[24px]"],
+.user-theme [class*="rounded-[28px]"],
+.user-theme [class*="rounded-3xl"],
+.user-theme [class*="rounded-2xl"] {
+  border-radius: 14px !important;
+}
+
+.user-theme [class*="shadow-2xl"],
+.user-theme [class*="shadow-xl"],
+.user-theme [class*="shadow-lg"],
+.user-theme [class*="shadow-md"] {
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08) !important;
+}
+
+.user-theme input,
+.user-theme select,
+.user-theme textarea {
+  background-color: #f9f9f9 !important;
+  border-color: #e0e0e0 !important;
+  color: var(--user-text) !important;
+  caret-color: var(--user-accent);
+}
+
+.user-theme input:focus,
+.user-theme select:focus,
+.user-theme textarea:focus {
+  background-color: #ffffff !important;
+  border-color: var(--user-accent) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14) !important;
+  outline: none !important;
+}
+
+.user-theme input::placeholder,
+.user-theme textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.user-theme [class*="text-[11px]"][class*="uppercase"],
+.user-theme [class*="text-[10px]"][class*="uppercase"] {
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+}
+
+.user-theme table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.user-theme thead,
+.user-theme thead tr,
+.user-theme thead th,
+.user-theme th[class*="bg-"] {
+  background-image: none !important;
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+.user-theme thead * {
+  color: #475569 !important;
+}
+
+.user-theme td,
+.user-theme th {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-color: var(--user-border) !important;
+}
+
+.user-theme tbody td {
+  border-bottom: 1px solid var(--user-border) !important;
+}
+
+.user-theme tbody tr:hover {
+  background-color: var(--user-bg-soft) !important;
+}
+
+.user-theme button[class~="bg-black"],
+.user-theme a[class~="bg-black"] {
+  background-color: var(--user-accent) !important;
+  color: #fff !important;
+}
+
+.user-theme button[class~="bg-black"]:hover,
+.user-theme a[class~="bg-black"]:hover {
+  background-color: var(--user-accent-strong) !important;
+}
+
+.user-theme div[class~="bg-black"][class~="text-white"],
+.user-theme section[class~="bg-black"][class~="text-white"] {
+  background-color: #0f172a !important;
+  color: #fff !important;
+}
+
+.user-theme div[class~="bg-black"][class~="text-white"] h1,
+.user-theme div[class~="bg-black"][class~="text-white"] h2,
+.user-theme div[class~="bg-black"][class~="text-white"] h3,
+.user-theme section[class~="bg-black"][class~="text-white"] h1,
+.user-theme section[class~="bg-black"][class~="text-white"] h2,
+.user-theme section[class~="bg-black"][class~="text-white"] h3,
+.user-theme div[class~="bg-slate-950"] h1,
+.user-theme div[class~="bg-slate-950"] h2,
+.user-theme div[class~="bg-slate-950"] h3,
+.user-theme section[class~="bg-slate-950"] h1,
+.user-theme section[class~="bg-slate-950"] h2,
+.user-theme section[class~="bg-slate-950"] h3 {
+  color: #fff !important;
+}
+
+.user-theme div[class~="bg-black"][class~="text-white"] [class*="bg-white/"],
+.user-theme section[class~="bg-black"][class~="text-white"] [class*="bg-white/"],
+.user-theme div[class~="bg-slate-950"] [class*="bg-white/"],
+.user-theme section[class~="bg-slate-950"] [class*="bg-white/"] {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.user-theme div[class~="bg-black"][class~="text-white"] [class*="text-white"],
+.user-theme section[class~="bg-black"][class~="text-white"] [class*="text-white"],
+.user-theme div[class~="bg-slate-950"] [class*="text-white"],
+.user-theme section[class~="bg-slate-950"] [class*="text-white"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.user-theme .group:hover[class~="hover:bg-black"],
+.user-theme .group:hover [class~="group-hover:bg-black"] {
+  background-color: #0f172a !important;
+}
+
+.user-theme .group:hover[class~="hover:bg-black"] h1,
+.user-theme .group:hover[class~="hover:bg-black"] h2,
+.user-theme .group:hover[class~="hover:bg-black"] h3 {
+  color: #fff !important;
+}
+
+.user-theme .group:hover[class~="hover:bg-black"] p,
+.user-theme .group:hover[class~="hover:bg-black"] span {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.user-theme .group:hover[class~="hover:bg-black"] [class*="group-hover:text-black"] {
+  color: #0f172a !important;
+}
+
+.user-theme .group:hover[class~="hover:bg-black"] [class*="group-hover:bg-white"] {
+  background-color: #fff !important;
+}
+
+.user-theme [class*="border-black/10"],
+.user-theme [class*="border-black/15"],
+.user-theme [class*="border-gray-100"],
+.user-theme [class*="border-gray-200"] {
+  border-color: var(--user-border) !important;
+}
+
+.user-theme .text-red-500.user-price,
+.user-theme .text-red-600.user-price {
+  color: var(--user-danger-text) !important;
+}
+
+.user-status-success {
+  background: var(--user-success-bg);
+  color: var(--user-success-text);
+  border: 1px solid #bbf7d0;
+}
+
+.user-status-warning {
+  background: var(--user-warning-bg);
+  color: var(--user-warning-text);
+  border: 1px solid #fed7aa;
+}
+
+.user-status-danger {
+  background: var(--user-danger-bg);
+  color: var(--user-danger-text);
+  border: 1px solid #fecaca;
+}
+
+.user-status-info {
+  background: var(--user-info-bg);
+  color: var(--user-info-text);
+  border: 1px solid #bfdbfe;
+}
+
+.user-btn-primary {
+  background: var(--user-accent);
+  color: #fff;
+  border: 1px solid var(--user-accent);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.18);
+}
+
+.user-btn-primary:hover {
+  background: var(--user-accent-strong);
+  border-color: var(--user-accent-strong);
+}
+
+.user-btn-secondary {
+  background: #fff;
+  color: #334155;
+  border: 1px solid var(--user-border);
+}
+
+.user-btn-secondary:hover {
+  background: var(--user-bg-soft);
+  color: var(--user-text);
+}
+
+.user-btn-danger {
+  background: var(--user-danger-bg);
+  color: var(--user-danger-text);
+  border: 1px solid #fecaca;
+}
+
+.user-btn-danger:hover {
+  background: #fecaca;
+}
