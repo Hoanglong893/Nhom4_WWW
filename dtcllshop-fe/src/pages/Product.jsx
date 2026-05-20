@@ -118,12 +118,16 @@ const Product = () => {
 
       switch (sortBy) {
         case "price-low":
+          // Sắp xếp giá từ thấp đến cao
           return a.costPrice - b.costPrice;
         case "price-high":
+          // Sắp xếp giá từ cao đến thấp
           return b.costPrice - a.costPrice;
         case "newest":
+          // Sản phẩm mới nhất lên đầu
           return new Date(b.updatedAt) - new Date(a.updatedAt);
         case "bestselling":
+          // Sản phẩm bán chạy nhất
           return (b.soldQuantity || 0) - (a.soldQuantity || 0);
         default:
           return 0;
