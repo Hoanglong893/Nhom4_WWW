@@ -2,7 +2,6 @@ package fit.iuh.dtcllshopbe.mapper;
 
 import fit.iuh.dtcllshopbe.dto.request.ProductRequest;
 import fit.iuh.dtcllshopbe.dto.response.ProductResponse;
-import fit.iuh.dtcllshopbe.entities.Account;
 import fit.iuh.dtcllshopbe.entities.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

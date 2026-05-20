@@ -9,6 +9,10 @@ import fit.iuh.dtcllshopbe.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -87,6 +91,21 @@ public class ProductController {
                 .result(productService.getDashboardStats())
                 .build();
     }
+    @GetMapping("/admin/page")
+    public ApiResponse<Page<ProductResponse>> getProductsPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
+        // Sắp xếp theo ID giảm dần để các sản phẩm mới nhất lên đầu
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ProductResponse> productPage = productService.getProductsPage(pageable);
+
+        // Tạo response và set dữ liệu
+        ApiResponse<Page<ProductResponse>> response = new ApiResponse<>();
+        response.setMessage("Lấy danh sách phân trang thành công"); // Có thể set hoặc bỏ qua
+        response.setResult(productPage);
+
+        return response;
+    }
 }
 

@@ -22,6 +22,7 @@ import fit.iuh.dtcllshopbe.repository.SizeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,10 +34,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Dịch vụ xử lý nghiệp vụ liên quan đến Sản phẩm.
- * Quản lý CRUD, thống kê sản phẩm bán chạy và các dashboard liên quan.
- */
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -47,7 +44,13 @@ public class ProductService {
     CategoryRepository categoryRepository;
     SizeRepository sizeRepository;
     ProductMapper productMapper;
+    public Page<ProductResponse> getProductsPage(Pageable pageable) {
+        // Hàm findAll(Pageable) được tích hợp sẵn trong JpaRepository
+        Page<Product> productPage = productRepository.findAll(pageable);
 
+        // Chuyển đổi từ Page<Product> sang Page<ProductResponse> qua Mapper
+        return productPage.map(productMapper::toProductResponse);
+    }
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
@@ -260,11 +263,6 @@ public class ProductService {
     }
 
 
-    /**
-     * Lấy danh sách sản phẩm Trending (Bán chạy) theo thời gian.
-     * @param type Loại thời gian (week, month, year)
-     * @return Danh sách TopProductResponse kèm xu hướng tăng trưởng
-     */
     public List<TopProductResponse> getTopTrending(String type) {
 
         // ===== Xác định thời gian =====
@@ -348,10 +346,6 @@ public class ProductService {
         return result;
     }
 
-    /**
-     * Lấy các số liệu thống kê cơ bản cho Dashboard Admin.
-     * @return Map chứa thông tin tổng sản phẩm và sản phẩm sắp hết hàng.
-     */
     public Map<String, Long> getDashboardStats() {
         Map<String, Long> stats = new HashMap<>();
 
