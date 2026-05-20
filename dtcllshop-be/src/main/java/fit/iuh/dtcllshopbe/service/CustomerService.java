@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,19 +25,16 @@ import java.util.Optional;
 public class CustomerService {
     CustomerRepository customerRepository;
     CustomerMapper customerMapper;
-
-    public Customer saveCustomer(CustomerRequest customerRequest) {
+    public Customer saveCustomer(CustomerRequest customerRequest){
         System.out.println("Saving customer: " + customerRequest.getFullName());
         Customer customer = customerMapper.toCustomer(customerRequest);
-        customer.setCreateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        customer.setUpdateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setCreateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setUpdateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         customer.setStatus(Status.ACTIVE);
         return customerRepository.save(customer);
     }
 
-    public Customer getCustomerByEmail(String email) {
+    public Customer getCustomerByEmail(String email){
         return customerRepository.findByEmail(email);
     }
 
@@ -46,12 +42,12 @@ public class CustomerService {
         return customerRepository.existsByEmail(email);
     }
 
+
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll().stream()
                 .map(customerMapper::toCustomerResponse)
                 .toList();
     }
-
     @Transactional
     public CustomerResponse updateCustomerProfile(CustomerUpdateRequest request) {
         Customer existingCustomer = customerRepository.findById(request.getId())
@@ -72,15 +68,19 @@ public class CustomerService {
         return customerMapper.toCustomerResponse(updatedCustomer);
     }
 
+
     public List<Customer> getAll() {
         return customerRepository.findAll();
     }
+
 
     public CustomerResponse getCurrentCustomerProfile(int customerId) {
         Customer customer = customerRepository.findById(customerId);
 
         return customerMapper.toCustomerResponse(customer);
     }
+
+
 
     public CustomerResponse getCustomerById(int id) {
         Customer customer = customerRepository.findById(id);
@@ -92,3 +92,4 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 }
+

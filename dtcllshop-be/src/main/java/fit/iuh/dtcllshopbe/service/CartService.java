@@ -1,14 +1,13 @@
 package fit.iuh.dtcllshopbe.service;
 
-import fit.iuh.dtcllshopbe.dto.request.CartUpdateRequest;
+
 import fit.iuh.dtcllshopbe.dto.request.CartRequest;
+import fit.iuh.dtcllshopbe.dto.request.CartUpdateRequest;
 import fit.iuh.dtcllshopbe.dto.response.CartResponse;
 import fit.iuh.dtcllshopbe.entities.Account;
 import fit.iuh.dtcllshopbe.entities.Cart;
 import fit.iuh.dtcllshopbe.mapper.CartMapper;
 import fit.iuh.dtcllshopbe.repository.AccountRepository;
-import fit.iuh.dtcllshopbe.repository.AccountRepository;
-import fit.iuh.dtcllshopbe.mapper.CartMapper;
 import fit.iuh.dtcllshopbe.repository.CartDetailRepository;
 import fit.iuh.dtcllshopbe.repository.CartRepository;
 import fit.iuh.dtcllshopbe.repository.CustomerRepository;
@@ -26,10 +25,10 @@ public class CartService {
     private final CustomerRepository customerRepository;
     AccountRepository accountRepository;
     CartDetailRepository cartDetailRepository;
-    CartMapper cartMapper;
+    CartMapper  cartMapper;
 
-    public Cart saveCart(Cart cart) {
-        return cartRepository.save(cart);
+    public Cart saveCart(Cart cart){
+            return cartRepository.save(cart);
     }
 
     public Cart getCartByAccountId(int accountId) {
@@ -37,15 +36,13 @@ public class CartService {
 
         return cartRepository.findByAccount(account);
     }
-
-    public CartResponse updateCart(int cartId, CartRequest cartRequest) {
+    public CartResponse updateCart(int cartId,CartRequest cartRequest) {
         Cart cart = cartRepository.findById(cartId).orElse(null);
-        cart.setTotalQuantity(cart.getTotalQuantity() + cartRequest.getQuantity());
+        cart.setTotalQuantity(cart.getTotalQuantity()    + cartRequest.getQuantity());
         cart.setTotalAmount(cart.getTotalAmount() + cartRequest.getTotalAmount());
         cartRepository.save(cart);
         return cartMapper.toCartResponse(cart);
     }
-
     public CartResponse updateCartIncrease(int cartId, CartUpdateRequest cartPriceRequest) {
         Cart cart = cartRepository.findById(cartId).orElse(null);
         cart.setTotalQuantity(cart.getTotalQuantity() + 1);
@@ -57,9 +54,9 @@ public class CartService {
     public CartResponse updateCartDecrease(int cartId, CartUpdateRequest cartPriceRequest) {
         Cart cart = cartRepository.findById(cartId).orElse(null);
         cart.setTotalQuantity(cart.getTotalQuantity() - 1);
-        if (cart.getTotalQuantity() > 0) {
+        if(cart.getTotalQuantity() > 0){
             cart.setTotalAmount(cart.getTotalAmount() - cartPriceRequest.getPrice());
-        } else {
+        }else {
             cart.setTotalQuantity(0);
         }
         cart.setTotalAmount(cart.getTotalAmount() - cartPriceRequest.getPrice());

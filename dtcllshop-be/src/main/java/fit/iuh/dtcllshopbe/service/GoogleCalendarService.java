@@ -6,15 +6,14 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.*;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class GoogleCalendarService {
@@ -24,12 +23,14 @@ public class GoogleCalendarService {
                 .fromStream(new ClassPathResource("credentials.json").getInputStream())
                 .createScoped(List.of(CalendarScopes.CALENDAR));
 
+
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         return new Calendar.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 JacksonFactory.getDefaultInstance(),
-                requestInitializer)
+                requestInitializer
+        )
                 .setApplicationName("dtcllshop Meeting Scheduler")
                 .build();
     }
@@ -63,3 +64,4 @@ public class GoogleCalendarService {
         return createdEvent.getHtmlLink();
     }
 }
+

@@ -1,18 +1,13 @@
 package fit.iuh.dtcllshopbe.service;
 
-import fit.iuh.dtcllshopbe.controller.CartController;
 import fit.iuh.dtcllshopbe.dto.request.AccountRequest;
 import fit.iuh.dtcllshopbe.dto.response.AccountResponse;
-import fit.iuh.dtcllshopbe.dto.response.CustomerResponse;
 import fit.iuh.dtcllshopbe.entities.Account;
 import fit.iuh.dtcllshopbe.entities.Cart;
-
 import fit.iuh.dtcllshopbe.entities.Customer;
 import fit.iuh.dtcllshopbe.enums.Role;
-
 import fit.iuh.dtcllshopbe.enums.Status;
 import fit.iuh.dtcllshopbe.enums.StatusLogin;
-
 import fit.iuh.dtcllshopbe.exception.AppException;
 import fit.iuh.dtcllshopbe.exception.ErrorCode;
 import fit.iuh.dtcllshopbe.mapper.AccountMapper;
@@ -20,21 +15,16 @@ import fit.iuh.dtcllshopbe.mapper.CustomerMapper;
 import fit.iuh.dtcllshopbe.repository.AccountRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
-
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -43,22 +33,21 @@ public class AccountService {
 
     AccountRepository accountRepository;
     AccountMapper accountMapper;
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder ;
     CustomerService customerService;
     CartService cartService;
     CustomerMapper customerMapper;
 
+
     public AccountResponse addAccount(AccountRequest accountRequest) {
-        if (this.accountRepository.existsByUsername(accountRequest.getUsername()) ||
+        if(this.accountRepository.existsByUsername(accountRequest.getUsername()) ||
                 customerService.existsByEmail(accountRequest.getCustomer().getEmail())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         Account account = accountMapper.toAccount(accountRequest);
-        Cart cart = new Cart();
-        cart.setCreated_at(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        cart.setUpdated_at(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        Cart cart  = new Cart();
+        cart.setCreated_at(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        cart.setUpdated_at(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         cart.setTotalAmount(0.0);
         cart.setTotalQuantity(0);
         cart.setAccount(account);
@@ -66,28 +55,24 @@ public class AccountService {
         account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
         account.setRole(Role.USER);
         account.setStatusLogin(StatusLogin.ACTIVE);
-        account.setCreateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        account.setUpdateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        account.setCreateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        account.setUpdateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         account.setCart(cart);
 
         Customer customer = customerMapper.toCustomer(accountRequest.getCustomer());
-        customer.setCreateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        customer.setUpdateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setCreateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setUpdateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         customer.setStatus(Status.ACTIVE);
         account.setCustomer(customer);
 
         cartService.saveCart(cart);
 
-        return accountMapper.toAccountResponse(this.accountRepository.save(account));
+        return  accountMapper.toAccountResponse(this.accountRepository.save(account));
     }
 
+
     public AccountResponse getAccountById(Integer id) {
-        return accountMapper.toAccountResponse(
-                this.accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found")));
+        return accountMapper.toAccountResponse(this.accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found")));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -97,64 +82,57 @@ public class AccountService {
 
         return accounts.stream()
                 .filter(acc -> acc.getId() != 1)
-                .filter(acc -> name == null
-                        || acc.getCustomer().getFullName().toLowerCase().contains(name.toLowerCase()))
-                .filter(acc -> status == null || acc.getStatusLogin().name().equals(status))
-                .filter(acc -> role == null || acc.getRole().name().equals(role))
+                .filter(acc -> name == null || name.isEmpty() || (acc.getCustomer() != null && acc.getCustomer().getFullName() != null && acc.getCustomer().getFullName().toLowerCase().contains(name.toLowerCase())))
+                .filter(acc -> status == null || status.isEmpty() || (acc.getStatusLogin() != null && acc.getStatusLogin().name().equals(status)))
+                .filter(acc -> role == null || role.isEmpty() || (acc.getRole() != null && acc.getRole().name().equals(role)))
                 .map(accountMapper::toAccountResponse)
                 .toList();
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    public AccountResponse getMyAccount() {
+    public AccountResponse getMyAccount(){
         var contextHolder = SecurityContextHolder.getContext();
         String username = contextHolder.getAuthentication().getName();
-        Account account = this.accountRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        return accountMapper.toAccountResponse(account);
+        Account account = this.accountRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
+        return  accountMapper.toAccountResponse(account);
     }
 
-    public AccountResponse getAccountByUsername(String username) {
-        Account account = this.accountRepository.findByUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        return accountMapper.toAccountResponse(account);
+    public AccountResponse getAccountByUsername(String username){
+        Account account = this.accountRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
+        return  accountMapper.toAccountResponse(account);
     }
+
+
 
     @PreAuthorize("hasRole('ADMIN')")
     public AccountResponse addAccountByAdmin(AccountRequest accountRequest) {
-        if (this.accountRepository.existsByUsername(accountRequest.getUsername()) ||
+        if(this.accountRepository.existsByUsername(accountRequest.getUsername()) ||
                 customerService.existsByEmail(accountRequest.getCustomer().getEmail())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         Account account = accountMapper.toAccount(accountRequest);
-        Cart cart = new Cart();
-        cart.setCreated_at(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        cart.setUpdated_at(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        Cart cart  = new Cart();
+        cart.setCreated_at(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        cart.setUpdated_at(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         cart.setTotalAmount(0.0);
         cart.setTotalQuantity(0);
 
         account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
         account.setRole(accountRequest.getRole());
         account.setStatusLogin(StatusLogin.ACTIVE);
-        account.setCreateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        account.setUpdateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        account.setCreateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        account.setUpdateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         account.setCart(cart);
 
         Customer customer = customerMapper.toCustomer(accountRequest.getCustomer());
-        customer.setCreateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
-        customer.setUpdateAt(
-                Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setCreateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        customer.setUpdateAt(Date.from(LocalDate.now().atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         customer.setStatus(Status.ACTIVE);
         account.setCustomer(customer);
 
         cartService.saveCart(cart);
 
-        return accountMapper.toAccountResponse(this.accountRepository.save(account));
+        return  accountMapper.toAccountResponse(this.accountRepository.save(account));
     }
 
     public AccountResponse updateAccountByAdmin(Integer id, AccountRequest accountRequest) {
@@ -177,7 +155,7 @@ public class AccountService {
             existingAccount.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
         }
 
-        // Cập nhật Customer
+        //Cập nhật Customer
         Customer customer = existingAccount.getCustomer();
         customer.setFullName(accountRequest.getCustomer().getFullName());
         customer.setEmail(accountRequest.getCustomer().getEmail());
@@ -207,17 +185,17 @@ public class AccountService {
                 .toList();
     }
 
-    public Account getAccountByAccountId(int id) {
-        return this.accountRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+    public Account getAccountByAccountId(int id){
+        return this.accountRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public Account findAccountByCustomerEmail(String email) {
+    public  Account findAccountByCustomerEmail(String email){
 
-        return this.accountRepository.findByCustomer_Email(email)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        return this.accountRepository.findByCustomer_Email(email).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public Account saveAccount(Account account) {
+    public  Account saveAccount(Account account){
         return this.accountRepository.save(account);
     }
 
