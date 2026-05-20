@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import {
   FaPlus, FaEdit, FaTrash, FaUpload, FaDownload, FaImage, FaEye,
   FaSearch, FaFilter, FaSortAmountDown
@@ -8,6 +8,12 @@ export default function Products({ initialFilter = 'ALL' }) {
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+    // === THÊM 3 DÒNG NÀY VÀO ĐÂY ===
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+
+
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -53,18 +59,22 @@ export default function Products({ initialFilter = 'ALL' }) {
   useEffect(() => {
     loadProducts();
     loadCategories();
-  }, []);
+  }, [currentPage, pageSize]);
 
-  const loadProducts = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/products");
-      if (!res.ok) throw new Error("Failed");
-      const data = await res.json();
-      setProducts(data?.result || []);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const loadProducts = async () => {
+        try {
+            // Gọi API phân trang, trừ đi 1 vì Spring Boot đếm trang từ 0
+            const res = await fetch(`http://localhost:8080/products/admin/page?page=${currentPage - 1}&size=${pageSize}`);
+            if (!res.ok) throw new Error("Failed");
+            const data = await res.json();
+
+            // ApiResponse có thuộc tính result, bên trong result là đối tượng Page chứa content và totalPages
+            setProducts(data?.result?.content || []);
+            setTotalPages(data?.result?.totalPages || 0);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
   const loadCategories = async () => {
     try {
@@ -270,8 +280,7 @@ export default function Products({ initialFilter = 'ALL' }) {
 
     loadProducts();
   };
-  const handleImport = (e) => { /* ... */ };
-  const handleExport = () => {
+  const handleExportFile = () => {
     const csv = [
       ["id", "name", "price", "quantity"],
       ...products.map((p) => [p.id, p.name, p.price, p.quantity])
@@ -290,6 +299,26 @@ export default function Products({ initialFilter = 'ALL' }) {
     setDetailProduct(product);
     setShowDetailModal(true);
   };
+
+  const categoryLabel = (categoryName) => {
+    const labels = {
+      Top: "Áo",
+      Bottom: "Quần",
+      Accessories: "Phụ kiện",
+    };
+    return labels[categoryName] || categoryName || "Chưa phân loại";
+  };
+
+  const statusLabel = (status) => {
+    const labels = {
+      ACTIVE: "Đang bán",
+      INACTIVE: "Ngừng bán",
+    };
+    return labels[status] || status || "Không xác định";
+  };
+
+  const formatCurrency = (value) =>
+    `${Number(value || 0).toLocaleString("vi-VN")} đ`;
 
   const getCategoryColor = (categoryName) => {
     switch (categoryName) {
@@ -357,19 +386,19 @@ export default function Products({ initialFilter = 'ALL' }) {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Quản Lý Sản Phẩm
+                Quản lý sản phẩm
               </h1>
-              <p className="text-gray-500 mt-1">Quản lý và theo dõi danh sách sản phẩm trong cửa hàng</p>
+              <p className="text-gray-500 mt-1">Quản lý và theo dõi sản phẩm của cửa hàng</p>
             </div>
 
             <div className="flex gap-3 flex-wrap">
 
-              <button onClick={handleExport} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all">
-                <FaDownload /> <span className="font-medium">Xuất file CSV</span>
+              <button onClick={handleExportFile} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all">
+                <FaDownload /> <span className="font-medium">Xuất file</span>
               </button>
 
               <button onClick={openAddModal} className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition-all">
-                <FaPlus /> <span className="font-medium">Thêm Mới</span>
+                <FaPlus /> <span className="font-medium">Thêm mới</span>
               </button>
             </div>
           </div>
@@ -401,9 +430,9 @@ export default function Products({ initialFilter = 'ALL' }) {
               >
                 <option value="ALL">Tất cả danh mục</option>
                 {/* Map categories từ API hoặc hardcode nếu muốn */}
-                <option value="Top">Top </option>
-                <option value="Bottom">Bottom </option>
-                <option value="Accessories">Accessories </option>
+                <option value="Top">Áo</option>
+                <option value="Bottom">Quần</option>
+                <option value="Accessories">Phụ kiện</option>
                 {/* Nếu muốn map từ state categories:
                 {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)} 
                 */}
@@ -419,8 +448,8 @@ export default function Products({ initialFilter = 'ALL' }) {
                 onChange={(e) => setFilterStatus(e.target.value)}
               >
                 <option value="ALL">Tất cả trạng thái</option>
-                <option value="ACTIVE">Đang hoạt động</option>
-                <option value="INACTIVE">Ngừng hoạt động</option>
+                <option value="ACTIVE">Đang bán</option>
+                <option value="INACTIVE">Ngừng bán</option>
               </select>
             </div>
 
@@ -433,8 +462,8 @@ export default function Products({ initialFilter = 'ALL' }) {
                 onChange={(e) => setSortOption(e.target.value)}
               >
                 <option value="newest">Mới nhất</option>
-                <option value="price-asc">Giá: Thấp đến Cao</option>
-                <option value="price-desc">Giá: Cao đến Thấp</option>
+                <option value="price-asc">Giá: thấp đến cao</option>
+                <option value="price-desc">Giá: cao đến thấp</option>
                 <option value="name-asc">Tên: A - Z</option>
                 <option value="stock-desc">Tồn kho nhiều nhất</option>
               </select>
@@ -449,12 +478,12 @@ export default function Products({ initialFilter = 'ALL' }) {
             <table className="w-full">
               <thead className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Tên Sản Phẩm</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Danh Mục</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Giá bán (VNĐ)</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Số Lượng Kho</th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Trạng Thái</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase">Hành Động</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Tên sản phẩm</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Danh mục</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Giá (VNĐ)</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Tồn kho</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase">Trạng thái</th>
+                  <th className="px-6 py-4 text-right text-sm font-bold text-gray-700 uppercase">Thao tác</th>
                 </tr>
               </thead>
 
@@ -474,13 +503,13 @@ export default function Products({ initialFilter = 'ALL' }) {
                       {/* Category */}
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(p.category?.name)}`}>
-                          {p.category?.name}
+                          {categoryLabel(p.category?.name)}
                         </span>
                       </td>
 
                       {/* Price */}
                       <td className="px-6 py-4">
-                        <span className="font-semibold text-green-600">{p.price.toLocaleString()} đ</span>
+                        <span className="font-semibold text-green-600">{formatCurrency(p.price)}</span>
                       </td>
 
                       {/* Stock */}
@@ -494,16 +523,16 @@ export default function Products({ initialFilter = 'ALL' }) {
                       <td className="px-6 py-4">
                         {p.status === "ACTIVE" ? (
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                            <span className="w-1.5 h-1.5 bg-green-600 rounded-full mr-2"></span> Hoạt động
+                            <span className="w-1.5 h-1.5 bg-green-600 rounded-full mr-2"></span> {statusLabel(p.status)}
                           </span>
                         ) : (
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
-                            <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span> Ngừng hoạt động
+                            <span className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></span> {statusLabel(p.status)}
                           </span>
                         )}
                       </td>
 
-                      {/* Actions */}
+                      {/* Thao tác */}
                       <td className="px-6 py-4">
                         <div className="flex gap-2 justify-end">
                           <button onClick={() => openDetailModal(p)} className="text-gray-600 hover:text-blue-600 p-2 rounded-lg hover:bg-blue-50 transition-all" title="Xem chi tiết">
@@ -532,6 +561,54 @@ export default function Products({ initialFilter = 'ALL' }) {
               </tbody>
             </table>
           </div>
+            {/* === THÊM ĐOẠN GIAO DIỆN PHÂN TRANG NÀY VÀO ĐÂY === */}
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 p-4 bg-gray-50 border-t border-gray-100">
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage((prev) => prev - 1)}
+                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                            currentPage === 1
+                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : "bg-white text-blue-600 border border-blue-200 hover:bg-blue-50 shadow-sm"
+                        }`}
+                    >
+                        Trước
+                    </button>
+
+                    <div className="flex items-center gap-1">
+                        {[...Array(totalPages).keys()].map((index) => {
+                            const pageNumber = index + 1;
+                            return (
+                                <button
+                                    key={pageNumber}
+                                    onClick={() => setCurrentPage(pageNumber)}
+                                    className={`w-10 h-10 flex items-center justify-center rounded-xl text-sm font-bold transition-all ${
+                                        currentPage === pageNumber
+                                            ? "bg-blue-600 text-white shadow-md"
+                                            : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                                    }`}
+                                >
+                                    {pageNumber}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                            currentPage === totalPages
+                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : "bg-white text-blue-600 border border-blue-200 hover:bg-blue-50 shadow-sm"
+                        }`}
+                    >
+                        Sau
+                    </button>
+                </div>
+            )}
+            {/* === KẾT THÚC ĐOẠN PHÂN TRANG === */}
         </div>
 
         {/* DETAIL MODAL */}
@@ -563,7 +640,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                       <div className="border-2 border-gray-200 rounded-2xl overflow-hidden bg-linear-to-br from-gray-50 to-gray-100 h-80 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                         <img
                           src={detailProduct.imageUrlFront || "https://via.placeholder.com/300"}
-                          alt="Front"
+                          alt="Ảnh mặt trước"
                           className="max-h-full max-w-full object-contain p-4"
                         />
                       </div>
@@ -575,7 +652,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         <div className="border-2 border-gray-200 rounded-2xl overflow-hidden bg-linear-to-br from-gray-50 to-gray-100 h-80 flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                           <img
                             src={detailProduct.imageUrlBack}
-                            alt="Back"
+                            alt="Ảnh mặt sau"
                             className="max-h-full max-w-full object-contain p-4"
                           />
                         </div>
@@ -589,7 +666,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                       <h3 className="text-3xl font-bold text-gray-900 mb-2">{detailProduct.name}</h3>
                       <div className="flex items-center gap-3 mt-2">
                         <span className="bg-linear-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-md">
-                          {detailProduct.category?.name || "Chưa phân loại"}
+                          {categoryLabel(detailProduct.category?.name)}
                         </span>
                         <span className="text-sm text-gray-500 font-medium">ID: #{detailProduct.id}</span>
                       </div>
@@ -600,13 +677,13 @@ export default function Products({ initialFilter = 'ALL' }) {
                         <div>
                           <p className="text-xs text-gray-500 uppercase font-bold mb-1">Giá bán</p>
                           <p className="text-2xl font-bold bg-linear-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
-                            {detailProduct.costPrice?.toLocaleString()} đ
+                            {formatCurrency(detailProduct.costPrice)}
                           </p>
                         </div>
                         <div>
                           <p className="text-xs text-gray-500 uppercase font-bold mb-1">Giá gốc</p>
                           <p className="text-lg font-medium text-gray-500 line-through">
-                            {detailProduct.price?.toLocaleString()} đ
+                            {formatCurrency(detailProduct.price)}
                           </p>
                         </div>
                         <div>
@@ -636,7 +713,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         </li>
                         <li className="flex items-start gap-2">
                           <strong className="text-gray-900 min-w-[100px]">Kiểu dáng:</strong>
-                          <span className="text-gray-600">{detailProduct.form || "N/A"}</span>
+                          <span className="text-gray-600">{detailProduct.form || "Chưa có"}</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <strong className="text-gray-900 min-w-[100px]">Đánh giá:</strong>
@@ -652,7 +729,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                     <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
                       <h4 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
                         <span className="w-1 h-6 bg-linear-to-b from-green-500 to-emerald-500 rounded-full"></span>
-                        Chi tiết Size & Tồn kho
+                        Chi tiết kích cỡ & tồn kho
                       </h4>
                       {detailProduct.sizeDetails && detailProduct.sizeDetails.length > 0 ? (
                         <div className="grid grid-cols-4 gap-3">
@@ -737,7 +814,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                       >
                         <option value="">-- Chọn danh mục --</option>
                         {categories.map((c) => (
-                          <option key={c.id} value={c.id}>{c.name}</option>
+                          <option key={c.id} value={c.id}>{categoryLabel(c.name)}</option>
                         ))}
                       </select>
                     </div>
@@ -775,7 +852,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Kiểu dáng (Form)</label>
                       <input
                         className="w-full border-2 border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
-                        placeholder="VD: Regular Fit"
+                        placeholder="VD: Dáng vừa"
                         value={formData.form}
                         onChange={(e) => setFormData({ ...formData, form: e.target.value })}
                       />
@@ -834,7 +911,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         className="w-full border-2 border-gray-300 p-3 rounded-xl bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all duration-200"
                         value={formData.quantity}
                         readOnly
-                        title="Tự động tính tổng từ các size bên dưới (nếu logic yêu cầu) hoặc nhập tay"
+                        title="Tự động tính tổng từ các kích cỡ bên dưới (nếu logic yêu cầu) hoặc nhập tay"
                         onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
                       />
                     </div>
@@ -860,7 +937,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         />
                         {formData.imageUrlFront && (
                           <div className="h-32 w-32 border-2 border-gray-300 rounded-xl bg-white p-2 shadow-md hover:shadow-lg transition-shadow duration-200">
-                            <img src={formData.imageUrlFront} alt="Preview" className="w-full h-full object-contain" />
+                            <img src={formData.imageUrlFront} alt="Xem trước mặt trước" className="w-full h-full object-contain" />
                           </div>
                         )}
                       </div>
@@ -878,7 +955,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         />
                         {formData.imageUrlBack && (
                           <div className="h-32 w-32 border-2 border-gray-300 rounded-xl bg-white p-2 shadow-md hover:shadow-lg transition-shadow duration-200">
-                            <img src={formData.imageUrlBack} alt="Preview" className="w-full h-full object-contain" />
+                            <img src={formData.imageUrlBack} alt="Xem trước mặt sau" className="w-full h-full object-contain" />
                           </div>
                         )}
                       </div>
@@ -891,12 +968,12 @@ export default function Products({ initialFilter = 'ALL' }) {
                   <div className="flex justify-between items-center mb-5">
                     <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                       <span className="w-1 h-6 bg-linear-to-b from-emerald-500 to-green-500 rounded-full"></span>
-                      Chi tiết Size
+                      Chi tiết kích cỡ
                     </h3>
                   </div>
 
                   {formData.sizeDetails.length === 0 && (
-                    <p className="text-sm text-gray-500 italic text-center py-4 bg-white rounded-xl">Chưa có thông tin size nào.</p>
+                    <p className="text-sm text-gray-500 italic text-center py-4 bg-white rounded-xl">Chưa có thông tin kích cỡ nào.</p>
                   )}
 
                   <div className="space-y-3">
@@ -905,7 +982,7 @@ export default function Products({ initialFilter = 'ALL' }) {
                         <div className="flex-1">
                           <input
                             className="w-full border-b-2 border-gray-300 focus:border-blue-500 outline-none px-3 py-2 text-sm font-medium"
-                            placeholder="Tên Size (S, M, L...)"
+                            placeholder="Tên kích cỡ (S, M, L...)"
                             value={item.nameSize}
                             onChange={(e) => updateSizeDetail(index, "nameSize", e.target.value)}
                             disabled
@@ -951,3 +1028,9 @@ export default function Products({ initialFilter = 'ALL' }) {
     </div>
   );
 }
+
+
+
+
+
+
